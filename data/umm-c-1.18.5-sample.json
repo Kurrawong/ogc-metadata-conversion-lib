@@ -1,0 +1,185 @@
+{
+  "TilingIdentificationSystems" : [ {
+    "Coordinate1" : {
+      "MinimumValue" : "01",
+      "MaximumValue" : "60"
+    },
+    "Coordinate2" : {
+      "MinimumValue" : "C",
+      "MaximumValue" : "X"
+    },
+    "TilingIdentificationSystemName" : "VIIRS Rotated Sinusoidal Tiling System"
+  } ],
+  "AdditionalAttributes" : [ {
+    "Value" : "10.5067/ECOSTRESS/ECO_L2T_STARS.002",
+    "Name" : "identifier_product_doi",
+    "Description" : "Digital object identifier that uniquely identifies this data product",
+    "DataType" : "STRING"
+  }, {
+    "Value" : "https://doi.org",
+    "Name" : "identifier_product_doi_authority",
+    "Description" : "URL of the digital object identifier resolving authority",
+    "DataType" : "STRING"
+  } ],
+  "SpatialExtent" : {
+    "HorizontalSpatialDomain" : {
+      "Geometry" : {
+        "BoundingRectangles" : [ {
+          "NorthBoundingCoordinate" : 54,
+          "WestBoundingCoordinate" : -180,
+          "EastBoundingCoordinate" : 180,
+          "SouthBoundingCoordinate" : -54
+        } ],
+        "CoordinateSystem" : "CARTESIAN"
+      },
+      "ResolutionAndCoordinateSystem" : {
+        "HorizontalDataResolution" : {
+          "GenericResolutions" : [ {
+            "XDimension" : 70,
+            "YDimension" : 70,
+            "Unit" : "Meters"
+          } ]
+        },
+        "Description" : "Universal Transverse Mercator (UTM)",
+        "GeodeticModel" : {
+          "HorizontalDatumName" : "World Geodetic System (WGS84)"
+        }
+      },
+      "ZoneIdentifier" : "UTM"
+    },
+    "SpatialCoverageType" : "HORIZONTAL",
+    "GranuleSpatialRepresentation" : "GEODETIC"
+  },
+  "CollectionProgress" : "ACTIVE",
+  "StandardProduct" : true,
+  "ScienceKeywords" : [ {
+    "Category" : "EARTH SCIENCE",
+    "Topic" : "LAND SURFACE",
+    "Term" : "SURFACE THERMAL PROPERTIES",
+    "VariableLevel1" : "LAND SURFACE TEMPERATURE"
+  }, {
+    "Category" : "EARTH SCIENCE",
+    "Topic" : "LAND SURFACE",
+    "Term" : "LAND USE/LAND COVER",
+    "VariableLevel1" : "LAND USE/LAND COVER CLASSIFICATION",
+    "VariableLevel2" : "VEGETATION INDEX",
+    "VariableLevel3" : "NORMALIZED DIFFERENCE VEGETATION INDEX (NDVI)"
+  }, {
+    "Category" : "EARTH SCIENCE",
+    "Topic" : "LAND SURFACE",
+    "Term" : "SURFACE RADIATIVE PROPERTIES",
+    "VariableLevel1" : "ALBEDO"
+  } ],
+  "TemporalExtents" : [ {
+    "EndsAtPresentFlag" : true,
+    "PrecisionOfSeconds" : 0,
+    "TemporalResolution" : {
+      "Unit" : "Varies"
+    },
+    "RangeDateTimes" : [ {
+      "BeginningDateTime" : "2018-07-09T00:00:00.000Z"
+    } ]
+  } ],
+  "FileNamingConvention" : {
+    "Convention" : "ECOv002_L2T_STARS_51KTU_20250907_0713_01_NDVI.tif",
+    "Description" : "The file name begins with the Sensor (ECO) followed by the Product Version (v002), Processing Level and Type (L2T), Geophysical Parameter (STARS), Orbit Number (51KTU), Date and Time of Acquisition designated as YYYYMMDDTHHMMSS (20250907), Build Identifier of product generation software (0713), Product Iteration Number (01), and the Data Format (tif)."
+  },
+  "ProcessingLevel" : {
+    "ProcessingLevelDescription" : "Level 2 data products are derived geophysical variables at the same resolution and location as the Level 1 source data.",
+    "Id" : "2"
+  },
+  "DOI": {
+    "DOI": "10.5067/fake.record.01",
+
+
+    "PreviousVersion": {
+      "Version": "3.1459",
+      "Description": "ECSE-1638 addition",
+      "DOI": "10.5067/fake.record.04",
+      "Published": "2024-02-22T12:00:00Z"
+    }
+
+
+  },
+  "ShortName" : "ECSE-1916",
+  "EntryTitle" : "ECSE-1916 - UMM 1.18.5",
+  "AccessConstraints" : {
+    "Description" : "None"
+  },
+  "RelatedUrls" : [ {
+    "Description" : "List of scenes confirmed to affected by obstructions.",
+    "URLContentType" : "PublicationURL",
+    "Type" : "VIEW RELATED INFORMATION",
+    "Subtype" : "ANOMALIES",
+    "URL" : "https://git.earthdata.nasa.gov/projects/EMFD/repos/unified-metadata-model/browse/collection"
+  } ],
+  "DataDates" : [ {
+    "Date" : "2023-11-14T00:00:00.000Z",
+    "Type" : "CREATE"
+  }, {
+    "Date" : "2023-11-14T00:00:00.000Z",
+    "Type" : "UPDATE"
+  } ],
+  "Abstract" : "adding new enumeration",
+  "Purpose" : "Science Research",
+  "LocationKeywords" : [ {
+    "Category" : "GEOGRAPHIC REGION",
+    "Type" : "GLOBAL LAND"
+  } ],
+  "MetadataDates" : [ {
+    "Type" : "CREATE",
+    "Date" : "2021-07-14T17:16:00.000Z"
+  }, {
+    "Type" : "UPDATE",
+    "Date" : "2025-09-12T00:00:00.000Z"
+  } ],
+  "VersionDescription" : "Version 2",
+  "Version" : "002",
+  "CollectionDataType" : "SCIENCE_QUALITY",
+
+  "DataCenters": [
+    {
+      "ShortName": "AcmeData",
+      "Roles": ["ARCHIVER"]
+    }
+  ],
+
+  "TemporalKeywords" : [ "Varies" ],
+  "Platforms" : [ {
+    "Type" : "Space Stations/Crewed Spacecraft",
+    "ShortName" : "ISS",
+    "LongName" : "International Space Station",
+    "Instruments" : [ {
+      "ShortName" : "ECOSTRESS",
+      "LongName" : "ECOsystem Spaceborne Thermal Radiometer Experiment on Space Station",
+      "ComposedOf" : [ {
+        "ShortName" : "PHyTIR",
+        "LongName" : "Prototype HyspIRI Thermal Infrared Radiometer"
+      } ]
+    } ]
+  } ],
+  "MetadataSpecification" : {
+    "URL" : "https://cdn.earthdata.nasa.gov/umm/collection/v1.18.5",
+    "Name" : "UMM-C",
+    "Version" : "1.18.5"
+  },
+  "ArchiveAndDistributionInformation" : {
+    "FileArchiveInformation" : [ {
+      "FormatType" : "Native",
+      "AverageFileSize" : 21.4,
+      "Format" : "COG",
+      "TotalCollectionFileSizeBeginDate" : "2018-01-01T00:00:00.000Z",
+      "FormatDescription" : "Cloud Optimized GeoTIFF",
+      "AverageFileSizeUnit" : "MB"
+    } ],
+    "FileDistributionInformation" : [ {
+      "Media" : [ "Earthdata Cloud", "HTTPS" ],
+      "FormatType" : "Native",
+      "AverageFileSize" : 21.4,
+      "Format" : "COG",
+      "TotalCollectionFileSizeBeginDate" : "2018-01-01T00:00:00.000Z",
+      "FormatDescription" : "Cloud Optimized GeoTIFF (COG)",
+      "AverageFileSizeUnit" : "MB"
+    } ]
+  }
+}

@@ -12,27 +12,19 @@ Example:
 
 ```python
 from ocl.convert import convert
-from ocl.validate import validate
 
-validate("data/test.json", "umm")
-output = convert("data/test.json", "umm")
+output = convert("data/test/test.json", "umm")
 ```
 
 ### CLI
 The commands available to run via the CLI will be:
 
 ```bash
-ocl validate [file]
-```
-
-and
-
-```bash
-ocl convert [file]
+ocl convert [file] -f [format]
 ```
 
 ## Developing
-Install the project by running (requires uv):
+Install the project (requires uv) by running:
 
 ```bash
 uv sync

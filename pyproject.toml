@@ -15,6 +15,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "pydantic>=2.12.3",
+    "pydantic-xml>=2.18.0",
     "rich>=14.2.0",
     "typer>=0.20.0",
 ]
@@ -31,4 +32,3 @@ build-backend = "hatchling.build"
 
 [project.scripts]
 ocl = "ocl.cli:app"
-

@@ -1,0 +1,141 @@
+{
+    "bbox": [
+        -62.87262834116111,
+        -55.94470669421993,
+        173.246741777445,
+        38.42053289934906
+    ],
+    "geometry": {
+        "coordinates": [[
+            [
+                -62.87262834116111,
+                -55.94470669421993
+            ],
+            [
+                173.246741777445,
+                -55.94470669421993
+            ],
+            [
+                173.246741777445,
+                38.42053289934906
+            ],
+            [
+                -62.87262834116111,
+                38.42053289934906
+            ],
+            [
+                -62.87262834116111,
+                -55.94470669421993
+            ]
+        ]],
+        "type": "Polygon"
+    },
+    "id": "novasar_l2ard_hh_hv",
+    "conformsTo": [
+        "https://standards.iso.org/iso/19115/-4/0.1/core",
+        "https://standards.iso.org/iso/19115/-4/0.1/data-quality-core",
+        "https://standards.iso.org/iso/19115/-4/0.1/no-ref"
+    ],
+    "type": "Feature",
+    "properties": {
+        "defaultLocale": {
+            "language": "eng",
+            "characterEncoding": "utf8"
+        },
+        "identificationInfo": {
+            "defaultLocale": {
+                "language": "eng",
+                "characterEncoding": "utf8"
+            },
+            "extent": [{"geographicElement": [{
+                "northBoundLatitude": 38.42053289934906,
+                "southBoundLatitude": -55.94470669421993,
+                "type": "EX_GeographicBoundingBox",
+                "westBoundLongitude": -62.87262834116111,
+                "eastBoundLongitude": 173.246741777445
+            }]}],
+            "descriptiveKeywords": [],
+            "citation": {
+                "date": {"creation": "2025-10-20"},
+                "identifier": [{
+                    "code": "did:web:emc.spacebel.be:collections:novasar_l2ard_hh_hv",
+                    "codeSpace": "https://www.w3.org/ns/did/v1"
+                }],
+                "title": "novasar_l2ard_hh_hv"
+            },
+            "abstract": "NovaSAR-1 CEOS-ARD (level 2) HH,HV polarizations"
+        },
+        "metadataStandard": [
+            {"title": "ISO 19115-1:2014"},
+            {"title": "ISO 19115-4"}
+        ],
+        "contact": [{
+            "role": "pointOfContact",
+            "party": [{
+                "contactInfo": [{
+                    "address": [{
+                        "deliveryPoint": ["Building 101, Clunies Ross Street"],
+                        "country": "Australia",
+                        "city": "Black Mountain",
+                        "postalCode": "ACT 2601"
+                    }],
+                    "phone": {"voice": "tel:+61395452176"}
+                }],
+                "name": "CSIRO",
+                "type": "CI_Organisation"
+            }]
+        }],
+        "dataQualityInfo": [{
+            "scope": {"level": "series"},
+            "report": [{
+                "result": [{
+                    "pass": true,
+                    "specification": {
+                        "date": {"publication": "2021-10-14"},
+                        "identifier": [{
+                            "code": "ARD/PFS/NRB",
+                            "codeSpace": "https://ceos.org"
+                        }],
+                        "edition": "5.5",
+                        "title": "CEOS ARD Normalised Radar Backscatter (CARD4L-NRB)"
+                    },
+                    "type": "ConformanceResult",
+                    "explanation": "This collection is conformant with the CEOS ARD NRB Specification"
+                }],
+                "measure": {
+                    "measureIdentification": {
+                        "code": "ARD/PFS/NRB",
+                        "authority": {
+                            "alternateTitle": ["CEOS"],
+                            "title": "Committee on Earth Observation Satellites"
+                        },
+                        "codeSpace": "https://ceos.org"
+                    },
+                    "measureDescription": "The CEOS ARD Normalised Radar Backscatter product has been subject to Radiometric Terrain Correction (RTC) and is provided in the gamma-0 backscatter convention",
+                    "nameOfMeasure": ["CEOS ARD Normalised Radar Backscatter (CARD4L-NRB)"]
+                },
+                "evaluationMethod": [{
+                    "referenceDoc": [],
+                    "evaluationProcedure": {
+                        "editionDate": "2021-10-14",
+                        "edition": "5.5",
+                        "onlineResource": [
+                            {"linkage": "https://ceos.org/ard/files/PFS/NRB/v5.5/CARD4L-PFS_NRB_v5.5.pdf"},
+                            {"linkage": "https://ceos.org/ard/files/Self%20Assessments/NRB/v5.5/Opera%20RTC%20Sentinel-1%20self-assessment.zip"},
+                            {"linkage": "https://ceos.org/ard/files/Peer%20Reviews/NRB/v5.5/NovaSAR_WGCVEval.zip"}
+                        ],
+                        "title": "CEOS ARD Normalised Radar Backscatter (CARD4L-NRB)"
+                    },
+                    "type": "FullInspection",
+                    "evaluationMethodDescription": "This collection is conformant with the CEOS ARD NRB Specification"
+                }],
+                "type": "Commission"
+            }]
+        }],
+        "dateInfo": {"revision": "2025-10-20"},
+        "metadataScope": [{
+            "resourceScope": "series",
+            "name": "series"
+        }]
+    }
+}
