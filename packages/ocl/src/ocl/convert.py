@@ -28,7 +28,7 @@ def convert(content: str, format: InputFormat | None = None):
                     del i[k]
             # print(i)
             x = ISO3.model_validate(i)
-            o = x.model_dump(exclude_none=True)
+            o = x.model_dump_iso4()
         case "trainingDML":
             o = TrainingDML.model_validate_json(content)
         case "umm":

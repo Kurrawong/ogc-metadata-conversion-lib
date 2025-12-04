@@ -80,3 +80,16 @@ class ISO3(BaseModel):
     dateInfo: DateInfo | None = Field(validation_alias="mdb:dateInfo", default=None)
     dataQualityInfo: Annotated[list[DataQualityInfo] | None, BeforeValidator(dict_to_list)] = Field(
         validation_alias=AliasPath("mdb:dataQualityInfo", "mdq:DQ_DataQuality"), default=None)
+
+    def model_dump_iso4(self):
+        obj = self.model_dump(exclude_none=True)
+        properties = {}
+        if obj["dateInfo"]:
+            properties["dateInfo"] = obj["dateInfo"]
+        if obj["dataQualityInfo"]:
+            properties["dataQualityInfo"] = obj["dataQualityInfo"]
+        return {
+            "type": "Feature",
+            "conformsTo": [],
+            "properties": properties
+        }

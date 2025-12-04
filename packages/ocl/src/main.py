@@ -5,7 +5,7 @@ from ocl.validate import validate
 from ocl.utils import Format
 
 FORMAT: Format = "iso3"
-CONVERT = False
+CONVERT = True
 
 def main():
     match FORMAT:
