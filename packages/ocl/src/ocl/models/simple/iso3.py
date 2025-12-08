@@ -60,8 +60,6 @@ report_types = AliasChoices(
     # derivedElement
 
 
-
-
 class Scope(BaseModel):
     level: str = Field(validation_alias=AliasPath("mcc:level", "mcc:MD_ScopeCode", "#text"))
 
@@ -84,9 +82,9 @@ class ISO3(BaseModel):
     def model_dump_iso4(self):
         obj = self.model_dump(exclude_none=True)
         properties = {}
-        if obj["dateInfo"]:
+        if obj.get("dateInfo"):
             properties["dateInfo"] = obj["dateInfo"]
-        if obj["dataQualityInfo"]:
+        if obj.get("dataQualityInfo"):
             properties["dataQualityInfo"] = obj["dataQualityInfo"]
         return {
             "type": "Feature",
