@@ -22,6 +22,8 @@ def convert(content: str, format: InputFormat | None = None):
         case "iso3":
             # schema = xmlschema.XMLSchema(ROOT_DIR.parent / "schemas" / "ISO19115-3" / "mdb.xsd")
             # o = xmlschema.to_json(content, schema=schema)
+            if content.startswith("{"):
+                raise ValueError("Incorrect mediatype - detected JSON content when specifying iso3 format, expected XML content")
             i = xmltodict.parse(content)["mdb:MD_Metadata"]
             for k in list(i.keys()):
                 if k.startswith('@xmlns:'):
@@ -30,8 +32,12 @@ def convert(content: str, format: InputFormat | None = None):
             x = ISO3.model_validate(i)
             o = x.model_dump_iso4()
         case "trainingDML":
+            if content.startswith("<"):
+                raise ValueError("Incorrect mediatype - detected XML content when specifying trainingDML format, expected JSON content")
             o = TrainingDML.model_validate_json(content)
         case "umm":
+            if content.startswith("<"):
+                raise ValueError("Incorrect mediatype - detected XML content when specifying umm format, expected JSON content")
             o = UMM.model_validate_json(content)
 
     return o

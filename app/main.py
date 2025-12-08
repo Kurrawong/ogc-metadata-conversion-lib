@@ -1,5 +1,5 @@
 import httpx
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from starlette.responses import JSONResponse
 
 from ocl.convert import convert as oclconvert
@@ -23,8 +23,11 @@ def validate(file: str | None = None, format: Format | None = None):
         return "Provide a URL containing metadata using ?format=<iso3|umm|trainingDML|iso4>&file=<url>"
     else:
         r = httpx.get(file)
-        content = r.content
-        return oclvalidate(content, format)
+        content = r.text
+        try:
+            return oclvalidate(content, format)
+        except ValueError as e:
+            raise HTTPException(status_code=400, detail=str(e))
 
 @app.get("/convert", response_class=JSONResponse)
 def convert(file: str | None = None, format: InputFormat | None = None):
@@ -33,5 +36,8 @@ def convert(file: str | None = None, format: InputFormat | None = None):
         return "Provide a URL containing metadata using ?format=<iso3|umm|trainingDML>&file=<url>"
     else:
         r = httpx.get(file)
-        content = r.content
-        return oclconvert(content, format)
+        content = r.text
+        try:
+            return oclconvert(content, format)
+        except ValueError as e:
+            raise HTTPException(status_code=400, detail=str(e))

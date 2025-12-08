@@ -21,16 +21,24 @@ def validate(content: str, format: Format | None = None):
 
     match format:
         case "iso3":
+            if content.startswith("{"):
+                raise ValueError("Incorrect mediatype - detected JSON content when specifying iso3 format, expected XML content")
             # s = xmlschema.XMLSchema("https://raw.githubusercontent.com/ISO-TC211/XML/refs/heads/master/schemas.isotc211.org/19157/-2/mdq/1.0/mdq.xsd")
             # s.export(target='my_schemas', save_remote=True)
             is_json = False
             # schema = "http://standards.iso.org/iso/19115/-3/mdb/1.0"
             schema = ROOT_DIR.parent / "schemas" / "ISO19115-3" / "mdb.xsd"
         case "trainingDML":
+            if content.startswith("<"):
+                raise ValueError("Incorrect mediatype - detected XML content when specifying trainingDML format, expected JSON content")
             schema = ROOT_DIR.parent / "schemas" / "TDML/ai_eoTrainingDataset.json"
         case "umm":
+            if content.startswith("<"):
+                raise ValueError("Incorrect mediatype - detected XML content when specifying umm format, expected JSON content")
             schema = ROOT_DIR.parent / "schemas" / "umm/umm-c-json-schema.json"
         case "iso4":
+            if content.startswith("<"):
+                raise ValueError("Incorrect mediatype - detected XML content when specifying iso4 format, expected JSON content")
             schema = ROOT_DIR.parent / "schemas" / "ISO19115-4/19115-4.json"
 
     try:

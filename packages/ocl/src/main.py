@@ -14,7 +14,7 @@ def main():
             # file = "test/iso_xml.xml"
             # file = "test/mdb_example.xml"
             # file = "test/mdq_example.xml"
-            with open(f"data/{file}", "rb") as f:
+            with open(f"data/{file}", "r") as f:
                 content = f.read()
         case "trainingDML":
             with open("data/TDML_example.json", "r") as f:
