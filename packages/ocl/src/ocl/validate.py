@@ -46,7 +46,10 @@ def validate(content: str, format: Format | None = None):
             jsonschema.validate(content, json.loads(open(schema, "r").read()))
         else:
             # xmlschema.validate(content, schema)
-            i = xmltodict.parse(content)["mdb:MD_Metadata"]
+            doc = xmltodict.parse(content)
+            if not doc.get("mdb:MD_Metadata"):
+                raise ValueError("Invalid XML content - expecting <mdb:MD_Metadata> in 19115-3 XML format")
+            i = doc["mdb:MD_Metadata"]
             for k in list(i.keys()):
                 if k.startswith('@xmlns:'):
                     del i[k]
