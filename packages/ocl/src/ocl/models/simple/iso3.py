@@ -1,6 +1,6 @@
 from typing import Annotated, Any
 
-from pydantic import BaseModel, Field, AliasPath, BeforeValidator, AliasChoices
+from pydantic import BaseModel, Field, AliasPath, BeforeValidator, model_validator
 
 
 def dict_to_list(value: Any) -> list[dict]:
@@ -31,7 +31,7 @@ class DateInfo(BaseModel):
     revision: Annotated[str | None, BeforeValidator(get_revision_date)] = Field(validation_alias="cit:CI_Date",
                                                                                 default=None)
 
-report_types = AliasChoices(
+report_types = [
     "mdq:DQ_AbsolutePositionalAccuracy",
     "mdq:DQ_AccuracyOfATimeMeasurement",
     "mdq:DQ_Commission",
@@ -50,14 +50,24 @@ report_types = AliasChoices(
     "mdq:DQ_TemporalValidity",
     "mdq:DQ_ThematicClassificationCorrectness",
     "mdq:DQ_TopologicalConsistency",
-)
+]
 
-# class Report(BaseModel):
-    # type: str
+class Report(BaseModel):
+    type: str
     # result
     # measure
     # evaluationMethod
     # derivedElement
+
+    @model_validator(mode="before")
+    def destructure(cls, data):
+        for key in data.keys():
+            if key in report_types:
+                return {
+                    "type": key.split("mdq:DQ_")[1],
+                    **data[key]
+                }
+        return data
 
 
 class Scope(BaseModel):
@@ -66,7 +76,7 @@ class Scope(BaseModel):
 
 class DataQualityInfo(BaseModel):
     scope: Scope = Field(validation_alias=AliasPath("mdq:scope", "mcc:MD_Scope"))
-    # report: Annotated[list[Report], BeforeValidator(dict_to_list)] = Field(validation_alias="mdq:report", default=None)
+    report: Annotated[list[Report] | None, BeforeValidator(dict_to_list)] = Field(validation_alias="mdq:report", default=None)
     # evaluationReport: Optional[dict]
 
 
@@ -82,12 +92,19 @@ class ISO3(BaseModel):
     def model_dump_iso4(self):
         obj = self.model_dump(exclude_none=True)
         properties = {}
+        if obj.get("id"):
+            properties["metadataIdentifier"] = {
+                "code": obj["id"]
+            }
         if obj.get("dateInfo"):
             properties["dateInfo"] = obj["dateInfo"]
         if obj.get("dataQualityInfo"):
             properties["dataQualityInfo"] = obj["dataQualityInfo"]
-        return {
+        feature = {
             "type": "Feature",
             "conformsTo": [],
             "properties": properties
         }
+        if obj.get("id"):
+            feature["id"] = obj["id"]
+        return feature

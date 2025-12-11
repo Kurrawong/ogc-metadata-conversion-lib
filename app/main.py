@@ -16,6 +16,7 @@ app = FastAPI()
 def index():
     return "home page"
 
+
 @app.get("/validate", response_class=JSONResponse)
 def validate(file: str | None = None, format: Format | None = None):
     """Validates a metadata file from a URL"""
@@ -28,6 +29,7 @@ def validate(file: str | None = None, format: Format | None = None):
             return oclvalidate(content, format)
         except ValueError as e:
             raise HTTPException(status_code=400, detail=str(e))
+
 
 @app.get("/convert", response_class=JSONResponse)
 def convert(file: str | None = None, format: InputFormat | None = None):

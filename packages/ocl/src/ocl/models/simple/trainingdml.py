@@ -1,14 +1,41 @@
-from pydantic import BaseModel
+from typing import Literal, Optional
 
-from ocl.models.simple.iso4 import ISO4
+from pydantic import BaseModel, Field, RootModel
+
+
+class Scope(RootModel):
+    root: dict
+
+
+class Report(RootModel):
+    root: dict
+
+
+class DataQualityInfo(BaseModel):
+    type: Literal["DataQuality"] = Field(..., exclude=True)
+    scope: Scope
+    report: Optional[list[Report]] = Field(default=None)
 
 
 class TrainingDML(BaseModel):
+    type: Literal["AI_EOTrainingData"] = Field(..., exclude=True)
     id: str
-    # title: str
-    # quality
+    # title
+    # created date
+    dataQualityInfo: Optional[list[DataQualityInfo]] = Field(validation_alias="quality", default=None)
 
-    def model_convert_iso4(self) -> ISO4:
-        return ISO4(
-            id=self.id
-        )
+    def model_dump_iso4(self):
+        obj = self.model_dump(exclude_none=True)
+        properties = {
+            "metadataIdentifier": {
+                "code": obj["id"]
+            }
+        }
+        if obj.get("dataQualityInfo"):
+            properties["dataQualityInfo"] = obj["dataQualityInfo"]
+        return {
+            "type": "Feature",
+            "id": obj["id"],
+            "conformsTo": [],
+            "properties": properties
+        }

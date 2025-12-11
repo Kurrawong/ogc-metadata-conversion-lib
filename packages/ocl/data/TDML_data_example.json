@@ -1,0 +1,773 @@
+{
+  "type": "AI_EOTrainingData",
+  "id": "0",
+  "extent": [
+    1560160,
+    5176338.4,
+    1566661.4,
+    5179409.2
+  ],
+  "dataTime": [
+    "2012-01-01",
+    "2016-01-01"
+  ],
+  "dataURL": [
+    "before/before.tif",
+    "after/after.tif"
+  ],
+  "numberOfLabels": 1,
+  "labels": [
+    {
+      "type": "AI_PixelLabel",
+      "confidence": 1.0,
+      "isNegative": false,
+      "imageURL": [
+        "change_label/change_label.tif"
+      ],
+      "imageFormat": [
+        "image/tiff"
+      ]
+    }
+  ],
+  "quality": [
+    {
+      "type": "DataQuality",
+      "scope": {
+        "level": "dataset"
+      },
+      "report": [
+        {
+          "type": "Commission",
+          "measure": {
+            "measureIdentification": {
+              "code": "2"
+            },
+            "nameOfMeasure": [
+              "number of excess items"
+            ],
+            "measureDescription": "Number of items within the dataset that should not have been in the dataset"
+          },
+          "evaluationMethod": [
+            {
+              "type": "FullInspection",
+              "evaluationMethodDescription": "Compare count of items in the dataset against count of items in universe of discourse.",
+              "evaluationMethodType": "directExternal"
+            }
+          ],
+          "result": [
+            {
+              "type": "QuantitativeResult",
+              "resultScope": {
+                "level": "featureType",
+                "levelDescription": [
+                  {
+                    "features": [
+                      "path"
+                    ]
+                  }
+                ]
+              },
+              "value": [
+                2
+              ],
+              "pass": false
+            }
+          ]
+        },
+        {
+          "type": "Commission",
+          "measure": {
+            "measureIdentification": {
+              "code": "1"
+            },
+            "nameOfMeasure": [
+              "number of excess items"
+            ],
+            "measureDescription": "indication that an item is incorrectly present in the data"
+          },
+          "evaluationMethod": [
+            {
+              "type": "AggregationDerivation",
+              "evaluationMethodDescription": "derivation from quantitatve result",
+              "evaluationMethodType": "indirect"
+            }
+          ],
+          "result": [
+            {
+              "type": "ConformanceResult",
+              "resultScope": {
+                "level": "feature",
+                "levelDescription": [
+                  {
+                    "features": [
+                      "path"
+                    ]
+                  }
+                ]
+              },
+              "specification": {
+                "title": "Data product specification. Maximum of two items can be missing from each feature type.",
+                "date": {
+                  "creation": "2010-07-05"
+                }
+              },
+              "pass": true
+            },
+            {
+              "type": "ConformanceResult",
+              "resultScope": {
+                "level": "featureType",
+                "levelDescription": [
+                  {
+                    "features": [
+                      "road"
+                    ]
+                  }
+                ]
+              },
+              "specification": {
+                "title": "Data product specification. Maximum of two items can be missing from each feature type.",
+                "date": {
+                  "creation": "2010-07-05"
+                }
+              },
+              "pass": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "DataQuality",
+      "scope": {
+        "level": "featureType",
+        "levelDescription": [
+          {
+            "features": [
+              "transportNetwork (road and path)"
+            ]
+          }
+        ]
+      },
+      "report": [
+        {
+          "type": "Commission",
+          "measure": {
+            "$comment": "required, but no values were provided"
+          },
+          "evaluationMethod": [
+            {
+              "type": "AggregationDerivation",
+              "evaluationMethodDescription": "100percent pass  fail aggregation of the conformance commission result for roads and paths",
+              "evaluationMethodType": "indirect",
+              "evaluationProcedure": {
+                "title": "Aggregation of data quality results",
+                "date": {
+                  "creation": "2010-07-05"
+                }
+              }
+            }
+          ],
+          "result": [
+            {
+              "type": "ConformanceResult",
+              "specification": {
+                "title": "Data product specification. Maximum of two items can be missing from each feature type.",
+                "date": {
+                  "creation": "2010-07-05"
+                }
+              },
+              "pass": true
+            }
+          ],
+          "derivedElement": [
+            {
+              "type": "Commission",
+              "measure": {
+                "measureIdentification": {
+                  "code": "1"
+                },
+                "nameOfMeasure": [
+                  "number of excess items"
+                ],
+                "measureDescription": "indication that an item is incorrectly present in the data"
+              },
+              "evaluationMethod": [
+                {
+                  "type": "AggregationDerivation",
+                  "evaluationMethodDescription": "derivation from quantitatve result",
+                  "evaluationMethodType": "indirect"
+                }
+              ],
+              "result": [
+                {
+                  "type": "ConformanceResult",
+                  "resultScope": {
+                    "level": "feature",
+                    "levelDescription": [
+                      {
+                        "features": [
+                          "path"
+                        ]
+                      }
+                    ]
+                  },
+                  "specification": {
+                    "title": "Data product specification. Maximum of two items can be missing from each feature type.",
+                    "date": {
+                      "creation": "2010-07-05"
+                    }
+                  },
+                  "pass": true
+                },
+                {
+                  "type": "ConformanceResult",
+                  "resultScope": {
+                    "level": "featureType",
+                    "levelDescription": [
+                      {
+                        "features": [
+                          "road"
+                        ]
+                      }
+                    ]
+                  },
+                  "specification": {
+                    "title": "Data product specification. Maximum of two items can be missing from each feature type.",
+                    "date": {
+                      "creation": "2010-07-05"
+                    }
+                  },
+                  "pass": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "DataQuality",
+      "scope": {
+        "level": "dataset"
+      },
+      "report": [
+        {
+          "type": "ThematicClassificationCorrectness",
+          "measure": {
+            "measureIdentification": {
+              "code": "60"
+            },
+            "nameOfMeasure": [
+              "number of incorrectly classified features"
+            ]
+          },
+          "evaluationMethod": [
+            {
+              "type": "AggregationDerivation",
+              "evaluationMethodDescription": "Derivation from quantitative results reported in qyuality evaluation report.",
+              "evaluationMethodType": "indirect"
+            }
+          ],
+          "result": [
+            {
+              "type": "ConformanceResult",
+              "resultScope": {
+                "level": "featureType",
+                "levelDescription": [
+                  {
+                    "features": [
+                      "industrial building"
+                    ]
+                  }
+                ]
+              },
+              "specification": {
+                "title": "Data product specification. Maximum of two feature instances can be misclassified as another of the building feature types and zero as other feature types.",
+                "date": {
+                  "creation": "2010-07-05"
+                }
+              },
+              "explanation": "The original quantitative result is provided in ... of the quality evaluation report",
+              "pass": true
+            },
+            {
+              "type": "ConformanceResult",
+              "resultScope": {
+                "level": "featureType",
+                "levelDescription": [
+                  {
+                    "features": [
+                      "house"
+                    ]
+                  }
+                ]
+              },
+              "specification": {
+                "title": "Data product specification. Maximum of two feature instances can be misclassified as another of the building feature types and zero as other feature types.",
+                "date": {
+                  "creation": "2010-07-05"
+                }
+              },
+              "explanation": "The original quantitative result is provided in the quality evaluation report",
+              "pass": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "DataQuality",
+      "scope": {
+        "level": "featureType",
+        "levelDescription": [
+          {
+            "features": [
+              "buildings (industrial and house)"
+            ]
+          }
+        ]
+      },
+      "report": [
+        {
+          "type": "Commission",
+          "measure": {
+            "$comment": "required, but no values were provided"
+          },
+          "evaluationMethod": [
+            {
+              "type": "AggregationDerivation",
+              "evaluationMethodDescription": "100percent pass fail aggregation of the conformance classification correctness result for inductrial buildings and houses",
+              "evaluationMethodType": "indirect",
+              "evaluationProcedure": {
+                "title": "Aggregation of data quality results",
+                "date": {
+                  "creation": "2010-07-05"
+                }
+              }
+            }
+          ],
+          "result": [
+            {
+              "type": "ConformanceResult",
+              "specification": {
+                "title": "Data product specification. Maximum of two items can be miss-classified.",
+                "date": {
+                  "creation": "2010-07-05"
+                }
+              },
+              "pass": true
+            }
+          ],
+          "derivedElement": [
+            {
+              "type": "ThematicClassificationCorrectness",
+              "measure": {
+                "measureIdentification": {
+                  "code": "60"
+                },
+                "nameOfMeasure": [
+                  "number of incorrectly classified features"
+                ]
+              },
+              "evaluationMethod": [
+                {
+                  "type": "AggregationDerivation",
+                  "evaluationMethodDescription": "Derivation from quantitative results reported in qyuality evaluation report.",
+                  "evaluationMethodType": "indirect"
+                }
+              ],
+              "result": [
+                {
+                  "type": "ConformanceResult",
+                  "resultScope": {
+                    "level": "featureType",
+                    "levelDescription": [
+                      {
+                        "features": [
+                          "industrial building"
+                        ]
+                      }
+                    ]
+                  },
+                  "specification": {
+                    "title": "Data product specification. Maximum of two feature instances can be misclassified as another of the building feature types and zero as other feature types.",
+                    "date": {
+                      "creation": "2010-07-05"
+                    }
+                  },
+                  "explanation": "The original quantitative result is provided in ... of the quality evaluation report",
+                  "pass": true
+                },
+                {
+                  "type": "ConformanceResult",
+                  "resultScope": {
+                    "level": "featureType",
+                    "levelDescription": [
+                      {
+                        "features": [
+                          "house"
+                        ]
+                      }
+                    ]
+                  },
+                  "specification": {
+                    "title": "Data product specification. Maximum of two feature instances can be misclassified as another of the building feature types and zero as other feature types.",
+                    "date": {
+                      "creation": "2010-07-05"
+                    }
+                  },
+                  "explanation": "The original quantitative result is provided in the quality evaluation report",
+                  "pass": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "DataQuality",
+      "scope": {
+        "level": "dataset"
+      },
+      "report": [
+        {
+          "type": "Confidence",
+          "measure": {
+            "measureIdentification": {
+              "code": "101"
+            },
+            "nameOfMeasure": [
+              "data product specification passed"
+            ],
+            "measureDescription": "Indication that all requirements in the referrence data product specification are fulfilled."
+          },
+          "evaluationMethod": [
+            {
+              "type": "AggregationDerivation",
+              "evaluationMethodDescription": "100percent pass fail aggregate of each conformance result for the requirement expressed in the data product specification.",
+              "evaluationMethodType": "indirect",
+              "evaluationProcedure": {
+                "title": "Aggregation of data quality results",
+                "date": {
+                  "creation": "2010-07-05"
+                }
+              }
+            }
+          ],
+          "result": [
+            {
+              "type": "ConformanceResult",
+              "specification": {
+                "title": "Data product specification.",
+                "date": {
+                  "creation": "2010-07-05"
+                }
+              },
+              "explanation": "3 requirements out of 11 are not fulfilled: the dataset is not conformant",
+              "pass": false
+            }
+          ],
+          "derivedElement": [
+            {
+              "type": "Commission",
+              "measure": {
+                "$comment": "required, but no values were provided"
+              },
+              "evaluationMethod": [
+                {
+                  "type": "AggregationDerivation",
+                  "evaluationMethodDescription": "100percent pass  fail aggregation of the conformance commission result for roads and paths",
+                  "evaluationMethodType": "indirect",
+                  "evaluationProcedure": {
+                    "title": "Aggregation of data quality results",
+                    "date": {
+                      "creation": "2010-07-05"
+                    }
+                  }
+                }
+              ],
+              "result": [
+                {
+                  "type": "ConformanceResult",
+                  "specification": {
+                    "title": "Data product specification. Maximum of two items can be missing from each feature type.",
+                    "date": {
+                      "creation": "2010-07-05"
+                    }
+                  },
+                  "pass": true
+                }
+              ],
+              "derivedElement": [
+                {
+                  "type": "Commission",
+                  "measure": {
+                    "measureIdentification": {
+                      "code": "1"
+                    },
+                    "nameOfMeasure": [
+                      "number of excess items"
+                    ],
+                    "measureDescription": "indication that an item is incorrectly present in the data"
+                  },
+                  "evaluationMethod": [
+                    {
+                      "type": "AggregationDerivation",
+                      "evaluationMethodDescription": "derivation from quantitatve result",
+                      "evaluationMethodType": "indirect"
+                    }
+                  ],
+                  "result": [
+                    {
+                      "type": "ConformanceResult",
+                      "resultScope": {
+                        "level": "feature",
+                        "levelDescription": [
+                          {
+                            "features": [
+                              "path"
+                            ]
+                          }
+                        ]
+                      },
+                      "specification": {
+                        "title": "Data product specification. Maximum of two items can be missing from each feature type.",
+                        "date": {
+                          "creation": "2010-07-05"
+                        }
+                      },
+                      "pass": true
+                    },
+                    {
+                      "type": "ConformanceResult",
+                      "resultScope": {
+                        "level": "featureType",
+                        "levelDescription": [
+                          {
+                            "features": [
+                              "road"
+                            ]
+                          }
+                        ]
+                      },
+                      "specification": {
+                        "title": "Data product specification. Maximum of two items can be missing from each feature type.",
+                        "date": {
+                          "creation": "2010-07-05"
+                        }
+                      },
+                      "pass": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Commission",
+              "measure": {
+                "$comment": "required, but no values were provided"
+              },
+              "evaluationMethod": [
+                {
+                  "type": "AggregationDerivation",
+                  "evaluationMethodDescription": "100percent pass fail aggregation of the conformance classification correctness result for inductrial buildings and houses",
+                  "evaluationMethodType": "indirect",
+                  "evaluationProcedure": {
+                    "title": "Aggregation of data quality results",
+                    "date": {
+                      "creation": "2010-07-05"
+                    }
+                  }
+                }
+              ],
+              "result": [
+                {
+                  "type": "ConformanceResult",
+                  "specification": {
+                    "title": "Data product specification. Maximum of two items can be miss-classified.",
+                    "date": {
+                      "creation": "2010-07-05"
+                    }
+                  },
+                  "pass": true
+                }
+              ],
+              "derivedElement": [
+                {
+                  "type": "ThematicClassificationCorrectness",
+                  "measure": {
+                    "measureIdentification": {
+                      "code": "60"
+                    },
+                    "nameOfMeasure": [
+                      "number of incorrectly classified features"
+                    ]
+                  },
+                  "evaluationMethod": [
+                    {
+                      "type": "AggregationDerivation",
+                      "evaluationMethodDescription": "Derivation from quantitative results reported in qyuality evaluation report.",
+                      "evaluationMethodType": "indirect"
+                    }
+                  ],
+                  "result": [
+                    {
+                      "type": "ConformanceResult",
+                      "resultScope": {
+                        "level": "featureType",
+                        "levelDescription": [
+                          {
+                            "features": [
+                              "industrial building"
+                            ]
+                          }
+                        ]
+                      },
+                      "specification": {
+                        "title": "Data product specification. Maximum of two feature instances can be misclassified as another of the building feature types and zero as other feature types.",
+                        "date": {
+                          "creation": "2010-07-05"
+                        }
+                      },
+                      "explanation": "The original quantitative result is provided in ... of the quality evaluation report",
+                      "pass": true
+                    },
+                    {
+                      "type": "ConformanceResult",
+                      "resultScope": {
+                        "level": "featureType",
+                        "levelDescription": [
+                          {
+                            "features": [
+                              "house"
+                            ]
+                          }
+                        ]
+                      },
+                      "specification": {
+                        "title": "Data product specification. Maximum of two feature instances can be misclassified as another of the building feature types and zero as other feature types.",
+                        "date": {
+                          "creation": "2010-07-05"
+                        }
+                      },
+                      "explanation": "The original quantitative result is provided in the quality evaluation report",
+                      "pass": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "DataQuality",
+      "scope": {
+        "level": "dataset"
+      },
+      "report": [
+        {
+          "type": "RelativePositionalAccuracy",
+          "measure": {
+            "nameOfMeasure": [
+              "Comparison of absolute positional accuracy"
+            ],
+            "measureDescription": "Comparison of absolute positional accuracy using known positional accuracy of the two or more independent objects"
+          },
+          "evaluationMethod": [
+            {
+              "type": "IndirectEvaluation",
+              "evaluationMethodDescription": "Compares absolute possitional accuracy of the archaeological object and\n                    the absolute positional accuracy of the river.",
+              "evaluationMethodType": "indirect",
+              "deductiveSource": "Positional accuracy of the rivers nearby the archaeological camp."
+            }
+          ],
+          "result": [
+            {
+              "type": "DescriptiveResult",
+              "statement": "Relative positional accuracy between the archaeological objects and rivers is higher \n                    than the absolute positional accuracy of the archaeological objects (5m)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "DataQuality",
+      "scope": {
+        "level": "dataset"
+      },
+      "report": [
+        {
+          "type": "AbsolutePositionalAccuracy",
+          "measure": {
+            "measureIdentification": {
+              "code": "47"
+            },
+            "nameOfMeasure": [
+              "Root mean square error planimetry"
+            ],
+            "measureDescription": "Standard deviation where the true value is not estimated from the observations but known a prioriStandard deviation\n                    where the true value is not estimated from the observations but known a priori"
+          },
+          "evaluationMethod": [
+            {
+              "type": "FullInspection",
+              "evaluationProcedure": {
+                "title": "IGN data quality evaluation procedure",
+                "date": {
+                  "creation": "1995-02-09"
+                }
+              }
+            },
+            {
+              "type": "AggregationDerivation",
+              "evaluationMethodType": "directExternal"
+            }
+          ],
+          "result": []
+        },
+        {
+          "type": "Confidence",
+          "measure": {
+            "measureIdentification": {
+              "authority": {
+                "title": "IGN Measures",
+                "date": {
+                  "creation": "1995-01-01"
+                }
+              },
+              "code": "1"
+            },
+            "nameOfMeasure": [
+              "Safety Factor"
+            ],
+            "measureDescription": "The ratio between the accuracy class of the evaluation elements and the accuracy class that has to be obtained in the dataset."
+          },
+          "evaluationMethod": [
+            {
+              "type": "FullInspection",
+              "evaluationMethodDescription": "The bigger the \"Safety Factor\" is the more trustful is the evaluation.\n                   The \"Safety Factor\" has to be bigger than 2 to validate the evaluation.",
+              "evaluationMethodType": "directExternal",
+              "evaluationProcedure": {
+                "title": "Arrâté 2003 (French legislation)",
+                "date": {
+                  "publication": "2003"
+                }
+              }
+            }
+          ],
+          "result": [
+            {
+              "type": "QuantitativeResult",
+              "value": [
+                2.4
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

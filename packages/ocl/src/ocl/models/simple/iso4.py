@@ -2,11 +2,21 @@ from typing import List, Optional, Union, Literal
 
 from pydantic import AnyUrl, BaseModel, Field
 
-# class Properties(BaseModel):
-#     dataQualityInfo: Optional[List[DataQuality]] = Field(None, unique_items=True)
+
+# class DataQualityInfo(BaseModel):
+#     scope: Scope
+#     report: Optional[list[Report]] = Field(default=None)
+    # evaluationReport: Optional[dict]
+
+
+class Properties(BaseModel):
+    dataQualityInfo: Optional[List[dict]] = Field(default=None)
+
 
 class ISO4(BaseModel):
-    # conformsTo: List[AnyUrl]
     type: Literal['Feature'] = Field(default="Feature")
     id: Optional[Union[float, str]] = None
-    # properties: Properties
+    conformsTo: List[AnyUrl]
+    properties: Properties
+    # geometry
+    # bbox
