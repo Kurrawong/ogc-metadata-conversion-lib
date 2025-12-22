@@ -2,9 +2,14 @@ from pathlib import Path
 
 import xmltodict
 
-from ocl.models.simple.iso3 import ISO3
-from ocl.models.simple.trainingdml import TrainingDML
-from ocl.models.simple.umm import UMM
+from ocl.mapping import convert_model
+from ocl.mappings.UMMtoISO4 import umm_to_iso4_mapping
+from ocl.mappings.TrainingDMLtoISO4 import trainingdml_to_iso4_mapping
+from ocl.mappings.ISO3toISO4 import iso3_to_iso4_mapping
+from ocl.models.mapped.iso3 import ISO3
+from ocl.models.mapped.trainingDML import TrainingDML
+from ocl.models.mapped.umm import UMM
+# from ocl.models.mapped.iso4 import ISO4
 from ocl.utils import InputFormat, guess_format, check_format
 
 ROOT_DIR = Path(__file__).parent.parent
@@ -32,19 +37,22 @@ def convert(content: str, format: InputFormat | None = None):
             for k in list(i.keys()):
                 if k.startswith('@xmlns:'):
                     del i[k]
-            x = ISO3.model_validate(i)
-            o = x.model_dump_iso4()
+            input = ISO3.model_validate(i)
+            output = convert_model(input, iso3_to_iso4_mapping)
+            o = output.model_dump()
         case "trainingDML":
             if content.startswith("<"):
                 raise ValueError(
                     "Incorrect mediatype - detected XML content when specifying trainingDML format, expected JSON content")
-            x = TrainingDML.model_validate_json(content)
-            o = x.model_dump_iso4()
+            input = TrainingDML.model_validate_json(content)
+            output = convert_model(input, trainingdml_to_iso4_mapping)
+            o = output.model_dump()
         case "umm":
             if content.startswith("<"):
                 raise ValueError(
                     "Incorrect mediatype - detected XML content when specifying umm format, expected JSON content")
-            x = UMM.model_validate_json(content)
-            o = x.model_dump_iso4()
+            input = UMM.model_validate_json(content)
+            output = convert_model(input, umm_to_iso4_mapping)
+            o = output.model_dump()
 
     return o

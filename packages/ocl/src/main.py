@@ -1,13 +1,107 @@
 # for running ocl as a Python library
+import xmltodict
 
 from ocl.convert import convert
 from ocl.utils import Format
 from ocl.validate import validate
+from ocl.mapping import SourceModel, TargetModel, convert_model, MappingDict
 
-FORMAT: Format = "trainingDML"
+FORMAT: Format = "iso3"
 CONVERT = True
 COLLECTION = False
 
+def test_mapping():
+    input = SourceModel.model_validate({
+        "source_nested_dict": {
+            "b": {
+                "c": "C"
+            },
+            "arr": [
+                {
+                    "d": {}
+                },
+                {
+                    "d": {
+                        "e": [
+                            {
+                                "f": {
+                                    "g": {
+                                        "h": [
+                                            {}
+                                        ]
+                                    },
+                                }
+                            },
+                            {
+                                "f": {
+                                    "g": {
+                                        "h": [
+                                            {"i": "J"}
+                                        ]
+                                    },
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "d": {
+                        "e": [
+                            {
+                                "f": {
+                                    "g": {
+                                        "h": [
+                                            {"i": "I1"},
+                                            {"i": "I2"}
+                                        ]
+                                    },
+                                }
+                            },
+                            {
+                                "f": {
+                                    "g": {
+                                        "h": [
+                                            {"i": "J1"},
+                                            {"i": "J2"}
+                                        ]
+                                    },
+                                }
+                            }
+                        ]
+                    }
+                },
+            ],
+        },
+        "source_str": "some string"
+    })
+    mapping_dict: MappingDict = {
+        "source_model": SourceModel,
+        "target_model": TargetModel,
+        "mappings": [
+            {
+                "key": "source_nested_dict.b",
+                "to": "target_nested_dict.y.z",
+                # "to_func": lambda value, source: None,
+            },
+            {
+                "key": "source_nested_dict.b.c",
+                "to": "target_str",
+                "to_func": lambda value, source: value.lower() + source.source_str,
+            },
+            {
+                "key": "source_str",
+                "to": "target_nested_dict.a.b.c",
+                # "to_func": lambda value, source: None,
+            },
+            {
+                "key": "source_nested_dict.arr@.d.e@.f.g.h@.i",
+                "to": "target_nested_dict.arr@.x@.y@.z",
+                # "to_func": lambda value, source: None,
+            },
+        ],
+    }
+    output = convert_model(input, mapping_dict)
+    print(output.model_dump())
 
 def main():
     file = ""
@@ -48,3 +142,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    # test_mapping()

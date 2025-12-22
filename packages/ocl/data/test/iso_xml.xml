@@ -46,5 +46,16 @@
                 </mcc:MD_Scope>
             </mdq:scope>
         </mdq:DQ_DataQuality>
+        <mdq:DQ_DataQuality>
+            <mdq:scope>
+                <mcc:MD_Scope>
+                    <mcc:level>
+                        <mcc:MD_ScopeCode codeList="http://www.tc211.org/ISO19139/resources/codeList.xml#MD_ScopeCode"
+                                          codeListValue="dataset">dataset
+                        </mcc:MD_ScopeCode>
+                    </mcc:level>
+                </mcc:MD_Scope>
+            </mdq:scope>
+        </mdq:DQ_DataQuality>
     </mdb:dataQualityInfo>
 </mdb:MD_Metadata>

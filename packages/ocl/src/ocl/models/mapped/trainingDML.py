@@ -1,0 +1,6 @@
+from typing import Annotated, Any
+
+from pydantic import RootModel, Field, AliasPath, BeforeValidator, model_validator
+
+class TrainingDML(RootModel):
+    root: dict
