@@ -4,12 +4,14 @@ FastAPI API and Python library
 ## API
 Available at - [ocl.dev.kurrawong.ai](https://ocl.dev.kurrawong.ai/)
 
-There are two endpoints available:
+There are two endpoints available (see the [OpenAPI docs](https://ocl.dev.kurrawong.ai/docs)):
 
-- `/validate`
-  - Validates a metadata file specified at a URL-encoded URL by `?file` and of format `?format` (being one of `iso3`, `umm`, `trainingDML` or `iso4`)
-- `/convert`
-  - Converts a metadata file to ISO 19115-4 JSON specified at a URL-encoded URL by `?file` and of format `?format` (being one of `iso3`, `umm`, or `trainingDML`)
+- `/validate` - Validates a metadata file of a specified format (being one of `iso3`, `umm`, `trainingDML` or `iso4`) at a URL
+  - GET - the `?file` URL must be URL-encoded
+  - POST
+- `/convert` - Converts a metadata file from a specified format (being one of `iso3`, `umm`, or `trainingDML`) at a URL to ISO 19115-4 JSON
+  - GET
+  - POST
 
 
 ## Library & CLI

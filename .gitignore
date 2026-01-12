@@ -12,6 +12,6 @@ wheels/
 .idea
 
 *.sh
-notes.*
+project/
 generated/
 docker-compose.yaml
