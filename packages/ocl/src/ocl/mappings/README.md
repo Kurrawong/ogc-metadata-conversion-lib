@@ -11,11 +11,12 @@ The mappings are defined in the Python files in this directory:
 
 ## ISO19115-3 XML to ISO19115-4 JSON
 
-Source Path|Target Path|Notes
--|-|-
-`mdb:metadataIdentifier.mcc:MD_Identifier.mcc:code.gco:CharacterString`|`id` & `properties.metadataIdentifier.code`|
-`mdb:dataQualityInfo.mdq:DQ_DataQuality@.mdq:scope.mcc:MD_Scope.mcc:level.mcc:MD_ScopeCode.#text`|`properties.dataQualityInfo@.scope.level`|
-`mdb:dateInfo`|`properties.dateInfo`|Post-processing function
+Source Path| Target Path                                 |Notes
+-|---------------------------------------------|-
+`mdb:metadataIdentifier.mcc:MD_Identifier.mcc:code.gco:CharacterString`| `id` & `properties.metadataIdentifier.code` |
+`mdb:dataQualityInfo.mdq:DQ_DataQuality@.mdq:scope.mcc:MD_Scope.mcc:level.mcc:MD_ScopeCode.#text`| `properties.dataQualityInfo@.scope.level`   |
+`mdb:dataQualityInfo.mdq:DQ_DataQuality@.mdq:report`| `properties.dataQualityInfo@.report`        |Post-processing function
+`mdb:dateInfo`| `properties.dateInfo`                       |Post-processing function
 
 ## UMM-G JSON to ISO19115-4 JSON
 
@@ -30,4 +31,4 @@ Source Path|Target Path|Notes
 Source Path|Target Path|Notes
 -|-|-
 `id`|`id` & `properties.metadataIdentifier.code`|
-`quality`|`properties.dataQualityInfo`|Direct mapping
+`quality`|`properties.dataQualityInfo`|

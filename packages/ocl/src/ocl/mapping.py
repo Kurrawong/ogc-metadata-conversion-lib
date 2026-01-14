@@ -95,7 +95,8 @@ def convert_model(source, mapping_dict: MappingDict):
             if mapping.get("to_func"):
                 value = mapping["to_func"](value, source)
             # TODO: might need before & after hook
-            set_value_from_key_path(to_chunks[0], value, obj)
+            if value is not None:
+                set_value_from_key_path(to_chunks[0], value, obj)
 
         else:
             # TODO: handle root object
