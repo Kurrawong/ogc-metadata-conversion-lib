@@ -134,10 +134,14 @@ def main():
 
     if CONVERT:
         print(f"Converting {FORMAT}...")
-        print(convert(content, FORMAT))
+        output = convert(content, FORMAT)
+        print("-----")
+        print(output)
     else:
         print(f"Validating {FORMAT}...")
-        print(validate(content, FORMAT))
+        output = validate(content, FORMAT)
+        print("-----")
+        print(output)
 
 
 if __name__ == "__main__":

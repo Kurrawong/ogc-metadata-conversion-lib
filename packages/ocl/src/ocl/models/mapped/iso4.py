@@ -12,3 +12,5 @@ class ISO4(BaseModel):
     ]
     id: Optional[float | str]
     properties: dict
+    bbox: Optional[list[float]]
+    geometry: dict
