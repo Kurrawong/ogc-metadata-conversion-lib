@@ -10,6 +10,8 @@ def character_string(obj: dict) -> str | None:
     ]
     for key in obj.keys():
         if key in valid_keys:
+            if isinstance(obj[key], dict):
+                return obj[key]["#text"]
             return obj[key]
     return None
 
@@ -38,6 +40,10 @@ def boolean(obj: dict) -> bool | None:
         if key in valid_keys:
             return bool(obj[key])
     return None
+
+
+def dict_to_list(obj: dict | list) -> list:
+    return obj if isinstance(obj, list) else [obj]
 
 
 def md_identifier(obj: dict) -> dict:
@@ -72,7 +78,8 @@ def ci_citation(obj: dict) -> dict:
 
     # edition
 
-    # identifier
+    if "cit:identifier" in obj:
+        cit_obj["identifier"] = [md_identifier(id["mcc:MD_Identifier"]) for id in dict_to_list(obj["cit:identifier"])]
 
     # citedResponsibleParty
 
@@ -97,20 +104,16 @@ def md_scope(obj: dict | None) -> dict | None:
     scope_obj = {"level": obj["mcc:level"]["mcc:MD_ScopeCode"]["#text"]}
 
     if "mri:extent" in obj:
-        extent = obj["mri:extent"]
-        if not isinstance(extent, list):
-            extent = [extent]
-        scope_obj["extent"] = [ex_extent(e["gex:EX_Extent"]) for e in extent]
+        scope_obj["extent"] = [ex_extent(e["gex:EX_Extent"]) for e in dict_to_list(obj["mri:extent"])]
+
     # levelDescription
+
     return scope_obj
 
 
 def process_report(report: list | dict | None) -> list[dict] | None:
     if report is None:
         return None
-
-    if not isinstance(report, list):
-        report = [report]
 
     report_arr = []
 
@@ -135,7 +138,7 @@ def process_report(report: list | dict | None) -> list[dict] | None:
         "mdq:DQ_TopologicalConsistency",
     ]
 
-    for r in report:
+    for r in dict_to_list(report):
         top_key = list(r.keys())[0]
         if not top_key in report_types:
             continue
@@ -162,8 +165,6 @@ def process_report(report: list | dict | None) -> list[dict] | None:
 
         # result
         if r[top_key].get("mdq:result"):
-            results = r[top_key]["mdq:result"] if isinstance(r[top_key]["mdq:result"], list) else [
-                r[top_key]["mdq:result"]]
             result_types = [
                 "mdq:DQ_ConformanceResult",
                 "mdq:DQ_CoverageResult",
@@ -173,22 +174,20 @@ def process_report(report: list | dict | None) -> list[dict] | None:
 
             results_array = []
 
-            for result in results:
+            for result in dict_to_list(r[top_key]["mdq:result"]):
                 result_top_key = list(result.keys())[0]
                 if not result_top_key in result_types:
                     continue
                 result_obj = {
                     "type": result_top_key.replace("mdq:DQ_", ""),
-                    "pass": bool(result[result_top_key]["mdq:pass"]["gco:Boolean"])
+                    "pass": bool(result[result_top_key]["mdq:pass"]["gco:Boolean"]),
+                    "specification": ci_citation(result[result_top_key]["mdq:specification"]["cit:CI_Citation"]),
                 }
 
                 # dateTime
 
-                # resultScope
-
-                # specification (required)
-                result_obj["specification"] = ci_citation(
-                    result[result_top_key]["mdq:specification"]["cit:CI_Citation"])
+                if "mdq:resultScope" in result:
+                    result_obj["resultScope"] = md_scope(result["mdq:resultScope"]["mcc:MD_Scope"])
 
                 # explanation
 
@@ -208,10 +207,10 @@ def process_report(report: list | dict | None) -> list[dict] | None:
 def process_data_quality(dq: list | dict | None) -> list[dict] | None:
     if dq is None:
         return None
-    if not isinstance(dq, list):
-        dq = [dq]
+
     d_arr = []
-    for d in dq:
+
+    for d in dict_to_list(dq):
         d_obj = {"scope": md_scope(d["mdq:DQ_DataQuality"]["mdq:scope"]["mcc:MD_Scope"])}
 
         if d["mdq:DQ_DataQuality"].get("mdq:report"):
@@ -226,10 +225,10 @@ def process_data_quality(dq: list | dict | None) -> list[dict] | None:
 def ci_date(obj: list | dict | None) -> dict | None:
     if obj is None:
         return None
-    if not isinstance(obj, list):
-        obj = [obj]
+
     date_obj = {}
-    for d in obj:
+
+    for d in dict_to_list(obj):
         date_obj[d["cit:CI_Date"]["cit:dateType"]["cit:CI_DateTypeCode"]["#text"]] = d["cit:CI_Date"]["cit:date"][
             "gco:DateTime"]
     return date_obj
@@ -242,8 +241,8 @@ def ex_extent(obj: dict | None) -> dict | None:
         return None
     if "gex:geographicElement" in obj:
         extent_obj = {"geographicElement": []}
-        element = obj["gex:geographicElement"] if isinstance(obj["gex:geographicElement"], list) else [obj["gex:geographicElement"]]
-        for el in element:
+
+        for el in dict_to_list(obj["gex:geographicElement"]):
             element_types = [
                 "gex:EX_GeographicBoundingBox",
                 "gex:EX_GeographicDescription",
@@ -264,7 +263,8 @@ def ex_extent(obj: dict | None) -> dict | None:
 
 
             elif element_top_key == "gex:EX_GeographicDescription":
-                element_obj["geographicIdentifier"] = md_identifier(el[element_top_key]["gex:geographicIdentifier"]["mcc:MD_Identifier"])
+                element_obj["geographicIdentifier"] = md_identifier(
+                    el[element_top_key]["gex:geographicIdentifier"]["mcc:MD_Identifier"])
 
             if "gex:extentTypeCode" in el[element_top_key]:
                 element_obj["extentTypeCode"] = boolean(el[element_top_key]["gex:extendTypeCode"])
@@ -277,28 +277,35 @@ def ex_extent(obj: dict | None) -> dict | None:
         return extent_obj
 
 
-
 def md_data_identification(obj: dict | None) -> dict | None:
     if obj is None:
         return None
+
     data_id_obj = {
         "citation": ci_citation(obj["mri:citation"]["cit:CI_Citation"]),
         "abstract": character_string(obj["mri:abstract"])
     }
 
+    if "mri:pointOfContact" in obj:
+        data_id_obj["pointOfContact"] = contact(obj["mri:pointOfContact"])
+
     if "mri:extent" in obj:
-        extent = obj["mri:extent"]
-        if not isinstance(extent, list):
-            extent = [extent]
-        data_id_obj["extent"] = [ex_extent(e["gex:EX_Extent"]) for e in extent]
+        data_id_obj["extent"] = [ex_extent(e["gex:EX_Extent"]) for e in dict_to_list(obj["mri:extent"])]
+
+    if "mri:defaultLocale" in obj:
+        data_id_obj["defaultLocale"] = pt_locale(obj["mri:defaultLocale"]["lan:PT_Locale"])
+
+    if "mri:otherLocale" in obj:
+        data_id_obj["otherLocale"] = other_locale(obj["mri:otherLocale"])
 
     return data_id_obj
 
 
 def bbox(obj: dict | list | None) -> list[float] | None:
-    extent = obj if isinstance(obj, list) else [obj]
-    extents = [ex_extent(e["gex:EX_Extent"]) for e in extent]
-    for e in extents:
+    if obj is None:
+        return None
+
+    for e in [ex_extent(e["gex:EX_Extent"]) for e in dict_to_list(obj)]:
         if e is None:
             continue
         if "geographicElement" in e:
@@ -330,6 +337,139 @@ def geometry(obj: dict | list | None) -> dict | None:
         "type": "Polygon",
         "coordinates": coords,
     }
+
+
+def pt_locale(obj: dict | None) -> dict | None:
+    if obj is None:
+        return None
+
+    locale_dict = {
+        "language": obj["lan:language"]["lan:LanguageCode"]["#text"],
+        # "characterEncoding": obj["lan:characterEncoding"],
+        "characterEncoding": "UTF-8",
+    }
+
+    if "country" in obj:
+        pass
+
+    return locale_dict
+
+
+def other_locale(obj: dict | list | None) -> list | None:
+    if obj is None:
+        return None
+
+    return [pt_locale(l["lan:PT_Locale"]) for l in dict_to_list(obj)]
+
+
+def md_metadata_scope(obj: dict | list | None) -> list | None:
+    if obj is None:
+        return None
+
+    return [
+        {
+            "resourceScope": s["mdb:MD_MetadataScope"]["mdb:resourceScope"]["mcc:MD_ScopeCode"]["#text"],
+            "name": s["mdb:MD_MetadataScope"]["mdb:resourceScope"]["mcc:MD_ScopeCode"]["#text"]
+        } for s in dict_to_list(obj)
+    ]
+
+
+def ci_contact(obj: dict | None) -> dict | None:
+    if obj is None:
+        return None
+
+    contact_obj = {}
+
+    # phone
+
+    if "cit:address" in obj:
+        addr_arr = []
+
+        for addr in [a["cit:CI_Address"] for a in dict_to_list(obj["cit:address"])]:
+            addr_obj = {}
+
+            if "cit:deliveryPoint" in addr:
+                addr_obj["deliveryPoint"] = [character_string(d) for d in dict_to_list(addr["cit:deliveryPoint"])]
+
+            if "cit:city" in addr:
+                addr_obj["city"] = character_string(addr["cit:city"])
+
+            if "cit:administrativeArea" in addr:
+                addr_obj["administrativeArea"] = character_string(addr["cit:administrativeArea"])
+
+            if "cit:postalCode" in addr:
+                addr_obj["postalCode"] = character_string(addr["cit:postalCode"])
+
+            if "cit:country" in addr:
+                addr_obj["country"] = character_string(addr["cit:country"])
+
+            if "cit:electronicMailAddress" in addr:
+                addr_obj["electronicMailAddress"] = [character_string(e) for e in
+                                                     dict_to_list(addr["cit:electronicMailAddress"])]
+
+            addr_arr.append(addr_obj)
+
+        contact_obj["address"] = addr_arr
+
+    # onlineResource
+
+    # hoursOfService
+
+    # contactInstructions
+
+    # contactType
+
+    return contact_obj
+
+
+def contact(obj: dict | list | None) -> list | None:
+    if obj is None:
+        return None
+
+    contact_arr = []
+
+    # CI_Responsibility
+    for r in [o["cit:CI_Responsibility"] for o in dict_to_list(obj)]:
+        c = {
+            "role": r["cit:role"]["cit:CI_RoleCode"]["#text"],
+        }
+
+        if "mri:extent" in r:
+            c["extent"] = [ex_extent(e["gex:EX_Extent"]) for e in dict_to_list(r["mri:extent"])]
+
+        if "cit:party" in r:
+            parties = []
+
+            for party in dict_to_list(r["cit:party"]):
+                party_types = [
+                    "cit:CI_Individual",
+                    "cit:CI_Organisation",
+                ]
+                party_top_key = list(party.keys())[0]
+                if not party_top_key in party_types:
+                    continue
+                party_obj = {"type": party_top_key.replace("cit:", "")}
+
+                if "cit:name" in party[party_top_key]:
+                    party_obj["name"] = character_string(party[party_top_key]["cit:name"])
+
+                if "cit:contactInfo" in party[party_top_key]:
+                    party_obj["contactInfo"] = [ci_contact(con["cit:CI_Contact"]) for con in
+                                                dict_to_list(party[party_top_key]["cit:contactInfo"])]
+
+                if "cit:partyIdentifier" in party[party_top_key]:
+                    party_obj["partyIdentifier"] = [md_identifier(id) for id in
+                                                    dict_to_list(party[party_top_key]["cit:partyIdentifier"])]
+
+                # positionName
+
+                parties.append(party_obj)
+
+            c["party"] = parties
+
+        contact_arr.append(c)
+
+    return contact_arr
 
 
 iso3_to_iso4_mapping: MappingDict = {
@@ -370,6 +510,26 @@ iso3_to_iso4_mapping: MappingDict = {
             "key": "mdb:identificationInfo.mri:MD_DataIdentification.mri:extent",
             "to": "geometry",
             "to_func": lambda value, source: geometry(value)
+        },
+        {
+            "key": "mdb:defaultLocale.lan:PT_Locale",
+            "to": "properties.defaultLocale",
+            "to_func": lambda value, source: pt_locale(value)
+        },
+        {
+            "key": "mdb:otherLocale",
+            "to": "properties.otherLocale",
+            "to_func": lambda value, source: other_locale(value)
+        },
+        {
+            "key": "mdb:metadataScope",
+            "to": "properties.metadataScope",
+            "to_func": lambda value, source: md_metadata_scope(value)
+        },
+        {
+            "key": "mdb:contact",
+            "to": "properties.contact",
+            "to_func": lambda value, source: contact(value)
         },
     ],
 }
