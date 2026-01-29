@@ -64,7 +64,8 @@ def md_identifier(obj: dict) -> dict:
     id_obj = {"code": character_string(obj["mcc:code"])}
 
     if "mcc:authority" in obj:
-        id_obj["authority"] = ci_citation(obj["mcc:authority"]["cit:CI_Citation"])
+        if obj["mcc:authority"].get("cit:CI_Citation"):
+            id_obj["authority"] = ci_citation(obj["mcc:authority"]["cit:CI_Citation"])
 
     if "mcc:codeSpace" in obj:
         id_obj["codeSpace"] = character_string(obj["mcc:codeSpace"])
@@ -132,9 +133,12 @@ def process_report(report: list | dict | None) -> list[dict] | None:
     report_arr = []
 
     report_types = [
+        "mdq:DQ_AbsoluteExternalPositionalAccuracy",
         "mdq:DQ_AbsolutePositionalAccuracy",
         "mdq:DQ_AccuracyOfATimeMeasurement",
         "mdq:DQ_Commission",
+        "mdq:DQ_CompletenessCommission",
+        "mdq:DQ_CompletenessOmission",
         "mdq:DQ_ConceptualConsistency",
         "mdq:DQ_Confidence",
         "mdq:DQ_DomainConsistency",
@@ -144,12 +148,14 @@ def process_report(report: list | dict | None) -> list[dict] | None:
         "mdq:DQ_NonQuantitativeAttributeCorrectness",
         "mdq:DQ_Omission",
         "mdq:DQ_QuantitativeAttributeAccuracy",
+        "mdq:DQ_RelativeInternalPositionalAccuracy",
         "mdq:DQ_RelativePositionalAccuracy",
         "mdq:DQ_Representativity",
         "mdq:DQ_TemporalConsistency",
         "mdq:DQ_TemporalValidity",
         "mdq:DQ_ThematicClassificationCorrectness",
         "mdq:DQ_TopologicalConsistency",
+        "mdq:DQ_UsabilityElement",
     ]
 
     for r in dict_to_list(report):
@@ -194,9 +200,13 @@ def process_report(report: list | dict | None) -> list[dict] | None:
                     continue
                 result_obj = {
                     "type": result_top_key.replace("mdq:DQ_", ""),
-                    "pass": bool(result[result_top_key]["mdq:pass"]["gco:Boolean"]),
-                    "specification": ci_citation(result[result_top_key]["mdq:specification"]["cit:CI_Citation"]),
                 }
+
+                if "mdq:pass" in result[result_top_key]:
+                    result_obj["pass"] = bool(result[result_top_key]["mdq:pass"]["gco:Boolean"])
+
+                if "mdq:specification" in result[result_top_key]:
+                    result_obj["specification"] = ci_citation(result[result_top_key]["mdq:specification"]["cit:CI_Citation"])
 
                 # dateTime
 
