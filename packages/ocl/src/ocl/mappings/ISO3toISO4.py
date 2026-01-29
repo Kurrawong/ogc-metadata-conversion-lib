@@ -11,9 +11,23 @@ def character_string(obj: dict) -> str | None:
     for key in obj.keys():
         if key in valid_keys:
             if isinstance(obj[key], dict):
-                return obj[key]["#text"]
+                if "#text" in obj[key]:
+                    return obj[key]["#text"]
+                elif key == "gcx:Anchor" and "@xlink:href" in obj[key]:
+                    return obj[key]["@xlink:href"]
+                else:
+                    return None
             return obj[key]
     return None
+
+
+def code_list(obj: dict) -> str | None:
+    if "#text" in obj:
+        return obj["#text"]
+    elif "@codeListValue" in obj:
+        return obj["@codeListValue"]
+    else:
+        return None
 
 
 def number(obj: dict) -> int | float | None:
@@ -101,7 +115,7 @@ def ci_citation(obj: dict) -> dict:
 def md_scope(obj: dict | None) -> dict | None:
     if obj is None:
         return None
-    scope_obj = {"level": obj["mcc:level"]["mcc:MD_ScopeCode"]["#text"]}
+    scope_obj = {"level": code_list(obj["mcc:level"]["mcc:MD_ScopeCode"])}
 
     if "mri:extent" in obj:
         scope_obj["extent"] = [ex_extent(e["gex:EX_Extent"]) for e in dict_to_list(obj["mri:extent"])]
@@ -229,7 +243,7 @@ def ci_date(obj: list | dict | None) -> dict | None:
     date_obj = {}
 
     for d in dict_to_list(obj):
-        date_obj[d["cit:CI_Date"]["cit:dateType"]["cit:CI_DateTypeCode"]["#text"]] = d["cit:CI_Date"]["cit:date"][
+        date_obj[code_list(d["cit:CI_Date"]["cit:dateType"]["cit:CI_DateTypeCode"])] = d["cit:CI_Date"]["cit:date"][
             "gco:DateTime"]
     return date_obj
 
@@ -344,7 +358,7 @@ def pt_locale(obj: dict | None) -> dict | None:
         return None
 
     locale_dict = {
-        "language": obj["lan:language"]["lan:LanguageCode"]["#text"],
+        "language": code_list(obj["lan:language"]["lan:LanguageCode"]),
         # "characterEncoding": obj["lan:characterEncoding"],
         "characterEncoding": "UTF-8",
     }
@@ -368,8 +382,8 @@ def md_metadata_scope(obj: dict | list | None) -> list | None:
 
     return [
         {
-            "resourceScope": s["mdb:MD_MetadataScope"]["mdb:resourceScope"]["mcc:MD_ScopeCode"]["#text"],
-            "name": s["mdb:MD_MetadataScope"]["mdb:resourceScope"]["mcc:MD_ScopeCode"]["#text"]
+            "resourceScope": code_list(s["mdb:MD_MetadataScope"]["mdb:resourceScope"]["mcc:MD_ScopeCode"]),
+            "name": code_list(s["mdb:MD_MetadataScope"]["mdb:resourceScope"]["mcc:MD_ScopeCode"])
         } for s in dict_to_list(obj)
     ]
 
@@ -431,7 +445,7 @@ def contact(obj: dict | list | None) -> list | None:
     # CI_Responsibility
     for r in [o["cit:CI_Responsibility"] for o in dict_to_list(obj)]:
         c = {
-            "role": r["cit:role"]["cit:CI_RoleCode"]["#text"],
+            "role": code_list(r["cit:role"]["cit:CI_RoleCode"]),
         }
 
         if "mri:extent" in r:
