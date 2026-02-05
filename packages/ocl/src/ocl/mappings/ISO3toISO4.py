@@ -1,3 +1,5 @@
+from typing import Any
+
 from ocl.mapping import MappingDict
 from ocl.models.mapped.iso3 import ISO3
 from ocl.models.mapped.iso4 import ISO4
@@ -126,6 +128,23 @@ def md_scope(obj: dict | None) -> dict | None:
     return scope_obj
 
 
+def record(obj: dict | None) -> Any | None:
+    if obj is None:
+        return None
+
+    valid_keys = [
+        "xsd:decimal",
+    ]
+    key = list(obj.keys())[0]
+    if key in valid_keys:
+        if key == "xsd:decimal":
+            return float(obj[key])
+        else:
+            return obj[key]
+    return obj[key]
+
+
+
 def process_report(report: list | dict | None) -> list[dict] | None:
     if report is None:
         return None
@@ -202,18 +221,46 @@ def process_report(report: list | dict | None) -> list[dict] | None:
                     "type": result_top_key.replace("mdq:DQ_", ""),
                 }
 
-                if "mdq:pass" in result[result_top_key]:
-                    result_obj["pass"] = bool(result[result_top_key]["mdq:pass"]["gco:Boolean"])
-
-                if "mdq:specification" in result[result_top_key]:
-                    result_obj["specification"] = ci_citation(result[result_top_key]["mdq:specification"]["cit:CI_Citation"])
-
-                # dateTime
-
                 if "mdq:resultScope" in result:
                     result_obj["resultScope"] = md_scope(result["mdq:resultScope"]["mcc:MD_Scope"])
 
-                # explanation
+                # dateTime
+
+                # for ConformanceResult:
+                if result_top_key == "mdq:DQ_ConformanceResult":
+                    # pass (required)
+                    if "mdq:pass" in result[result_top_key]:
+                        result_obj["pass"] = bool(result[result_top_key]["mdq:pass"]["gco:Boolean"])
+
+                    # specification (required)
+                    if "mdq:specification" in result[result_top_key]:
+                        result_obj["specification"] = ci_citation(result[result_top_key]["mdq:specification"]["cit:CI_Citation"])
+
+                    # explanation
+
+                # for CoverageResult:
+                if result_top_key == "mdq:DQ_CoverageResult":
+                    # spatialRepresentationType (required)
+                    if "mdq:spatialRepresentationType" in result[result_top_key]:
+                        result_obj["spatialRepresentationType"] = code_list(result[result_top_key]["mdq:spatialRepresentationType"]["MD_SpatialRepresentationTypeCode"])
+
+                # for DescriptiveResult:
+                if result_top_key == "mdq:DQ_DescriptiveResult":
+                    # statement (required)
+                    if "mdq:statement" in result[result_top_key]:
+                        result_obj["statement"] = character_string(result[result_top_key]["mdq:statement"])
+
+                # for QuantitativeResult:
+                if result_top_key == "mdq:DQ_QuantitativeResult":
+                    # value (required)
+                    if "mdq:value" in result[result_top_key]:
+                        result_obj["value"] = [record(val) for val in dict_to_list(result[result_top_key]["mdq:value"]["gco:Record"])]
+
+                    # valueUnit
+
+                    # valueRecordType
+                    if "mdq:valueRecordType" in result[result_top_key]:
+                        result_obj["valueRecordType"] = result[result_top_key]["mdq:valueRecordType"]["gco:RecordType"]
 
                 results_array.append(result_obj)
 
@@ -222,6 +269,57 @@ def process_report(report: list | dict | None) -> list[dict] | None:
         # derivedElement
 
         # evaluationMethod
+        if "mdq:evaluationMethod" in r[top_key]:
+            evaluation_method_types = [
+                "mdq:DQ_AggregationDerivation",
+                "mdq:DQ_FullInspection",
+                "mdq:DQ_IndirectEvaluation",
+                "mdq:DQ_SampleBasedInspection",
+            ]
+
+            method_array = []
+
+            for method in dict_to_list(r[top_key]["mdq:evaluationMethod"]):
+                method_top_key = list(method.keys())[0]
+                if not method_top_key in evaluation_method_types:
+                    continue
+                method_obj = {
+                    "type": method_top_key.replace("mdq:DQ_", ""),
+                }
+
+                # name
+
+                # evaluationMethodDescription
+                if "mdq:evaluationMethodDescription" in method[method_top_key]:
+                    method_obj["evaluationMethodDescription"] = character_string(method[method_top_key]["mdq:evaluationMethodDescription"])
+
+                # evaluationMethodType
+                if "mdq:evaluationMethodType" in method[method_top_key]:
+                    method_obj["evaluationMethodType"] = code_list(method[method_top_key]["mdq:evaluationMethodType"]["mdq:DQ_EvaluationMethodTypeCode"])
+
+                # evaluationProcedure
+                if "mdq:evaluationProcedure" in method[method_top_key]:
+                    method_obj["evaluationProcedure"] = ci_citation(method[method_top_key]["mdq:evaluationProcedure"]["cit:CI_Citation"])
+
+                # dateTime
+
+                # referenceDoc
+                if "mdq:referenceDoc" in method[method_top_key]:
+                    method_obj["referenceDoc"] = [ci_citation(ref["cit:CI_Citation"]) for ref in dict_to_list(method[method_top_key]["mdq:referenceDoc"])]
+
+                # deductiveSource
+
+                # SampleBasedInspection only:
+
+                # samplingSchema (required)
+
+                # lotDescription (required)
+
+                # samplingRation (required)
+
+                method_array.append(method_obj)
+
+            r_obj["evaluationMethod"] = method_array
 
         report_arr.append(r_obj)
 
@@ -237,10 +335,11 @@ def process_data_quality(dq: list | dict | None) -> list[dict] | None:
     for d in dict_to_list(dq):
         d_obj = {"scope": md_scope(d["mdq:DQ_DataQuality"]["mdq:scope"]["mcc:MD_Scope"])}
 
-        if d["mdq:DQ_DataQuality"].get("mdq:report"):
+        if "mdq:report" in d["mdq:DQ_DataQuality"]:
             d_obj["report"] = process_report(d["mdq:DQ_DataQuality"]["mdq:report"])
 
-        # qualityEvaluationReport
+        if "mdq:qualityEvaluationReport" in d["mdq:DQ_DataQuality"]:
+            pass
 
         d_arr.append(d_obj)
     return d_arr
