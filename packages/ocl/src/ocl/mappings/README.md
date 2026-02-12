@@ -14,8 +14,16 @@ The mappings are defined in the Python files in this directory:
 | Source Path                                                             | Target Path                                 | Notes                    |
 |-------------------------------------------------------------------------|---------------------------------------------|--------------------------|
 | `mdb:metadataIdentifier.mcc:MD_Identifier.mcc:code.gco:CharacterString` | `id` & `properties.metadataIdentifier.code` |                          |
+| `mdb:metadataIdentifier.mcc:MD_Identifier`                              | `properties.metadataIdentifier`             | Post-processing function |
 | `mdb:dataQualityInfo`                                                   | `properties.dataQualityInfo`                | Post-processing function |
 | `mdb:dateInfo`                                                          | `properties.dateInfo`                       | Post-processing function |
+| `mdb:identificationInfo.mri:MD_DataIdentification`                      | `properties.identificationInfo`             | Post-processing function |
+| `mdb:identificationInfo.mri:MD_DataIdentification.mri:extent`           | `geometry` & `bbox`                         | Post-processing function |
+| `mdb:defaultLocale.lan:PT_Locale`                                       | `properties.defaultLocale`                  | Post-processing function |
+| `mdb:otherLocale`                                                       | `properties.otherLocale`                    | Post-processing function |
+| `mdb:metadataScope`                                                     | `properties.metadataScope`                  | Post-processing function |
+| `mdb:contact`                                                           | `properties.contact`                        | Post-processing function |
+| `mdb:resourceLineage`                                                   | `properties.resourceLineage`                | Post-processing function |
 
 ## UMM-G JSON to ISO19115-4 JSON
 

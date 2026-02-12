@@ -5,11 +5,15 @@ from ocl.models.mapped.iso3 import ISO3
 from ocl.models.mapped.iso4 import ISO4
 
 
-def character_string(obj: dict) -> str | None:
+def character_string(obj: dict | None) -> str | None:
+    if obj is None:
+        return None
+
     valid_keys = [
         "gco:CharacterString",
         "gcx:Anchor",
     ]
+
     for key in obj.keys():
         if key in valid_keys:
             if isinstance(obj[key], dict):
@@ -62,7 +66,10 @@ def dict_to_list(obj: dict | list) -> list:
     return obj if isinstance(obj, list) else [obj]
 
 
-def md_identifier(obj: dict) -> dict:
+def md_identifier(obj: dict | None) -> dict | None:
+    if obj is None:
+        return None
+
     id_obj = {"code": character_string(obj["mcc:code"])}
 
     if "mcc:authority" in obj:
@@ -123,7 +130,7 @@ def md_scope(obj: dict | None) -> dict | None:
     if "mri:extent" in obj:
         scope_obj["extent"] = [ex_extent(e["gex:EX_Extent"]) for e in dict_to_list(obj["mri:extent"])]
 
-    # levelDescription
+    # levelDescription - need example data
 
     return scope_obj
 
@@ -338,8 +345,35 @@ def process_data_quality(dq: list | dict | None) -> list[dict] | None:
         if "mdq:report" in d["mdq:DQ_DataQuality"]:
             d_obj["report"] = process_report(d["mdq:DQ_DataQuality"]["mdq:report"])
 
+        # need example data
         if "mdq:qualityEvaluationReport" in d["mdq:DQ_DataQuality"]:
+            # reportReference (required) ci_citation
+
+            # abstract (required)
+
+            # qualityEvaluationReportDetails
+
+            # elementReport []
+
             pass
+
+        # lineage - need example data
+        if "mdb:resourceLineage" in d["mdq:DQ_DataQuality"]:
+            d_obj["lineage"] = li_lineage(d["mdq:DQ_DataQuality"]["mdb:resourceLineage"]["mrl:LI_Lineage"])
+
+        # standaloneQualityReport - need example data
+        if "mdq:standaloneQualityReport" in d["mdq:DQ_DataQuality"]:
+            standalone_obj = {}
+
+            if "mdq:abstract" in d["mdq:DQ_DataQuality"]["mdq:standaloneQualityReport"]["mdq:DQ_StandaloneQualityReportInformation"]:
+                standalone_obj["abstract"] = character_string(d["mdq:DQ_DataQuality"]["mdq:standaloneQualityReport"]["mdq:DQ_StandaloneQualityReportInformation"]["mdq:abstract"])
+
+            # CI_Citation? new DQ JSON schema says URI type instead
+            if "mdq:reportReference" in d["mdq:DQ_DataQuality"]["mdq:standaloneQualityReport"]["mdq:DQ_StandaloneQualityReportInformation"]:
+                standalone_obj["reportReference"] = ci_citation(d["mdq:DQ_DataQuality"]["mdq:standaloneQualityReport"]["mdq:DQ_StandaloneQualityReportInformation"]["mdq:reportReference"]["cit:CI_Citation"])
+
+            if len(standalone_obj.keys()) > 0:
+                d_obj["standaloneQualityReport"] = standalone_obj
 
         d_arr.append(d_obj)
     return d_arr
@@ -360,8 +394,15 @@ def ci_date(obj: list | dict | None) -> dict | None:
 def ex_extent(obj: dict | None) -> dict | None:
     if obj is None:
         return None
+
+    # nothing in schema
     if "gex:temporalElement" in obj:
         return None
+
+    # nothing in schema
+    if "gex:verticalExtent" in obj:
+        return None
+
     if "gex:geographicElement" in obj:
         extent_obj = {"geographicElement": []}
 
@@ -595,6 +636,54 @@ def contact(obj: dict | list | None) -> list | None:
     return contact_arr
 
 
+def li_lineage(obj: dict | None) -> dict | None:
+    if obj is None:
+        return None
+
+    lineage_obj = {}
+
+    # LI_Source []
+    if "mrl:source" in obj:
+        source_arr = []
+
+        for source in dict_to_list(obj["mrl:source"]):
+            source_obj = {}
+
+            if "mrl:description" in source["mrl:LI_Source"]:
+                source_obj["description"] = character_string(source["mrl:LI_Source"]["mrl:description"])
+
+            # sourceReferenceSystem
+
+            if "mrl:sourceCitation" in source:
+                source_obj["sourceCitation"] = ci_citation(source["mrl:LI_Source"]["mrl:sourceCitation"]["cit:CI_Citation"])
+
+            if "mrl:sourceMetadata" in source:
+                source_obj["sourceMetadata"] = [ci_citation(meta["cit:CI_Citation"]) for meta in dict_to_list(source["mrl:LI_Source"]["mrl:sourceMetadata"])]
+
+            if "mrl:scope" in source:
+                source_obj["scope"] = md_scope(source["mrl:LI_Source"]["mrl:scope"]["mcc:MD_Scope"])
+
+        lineage_obj["source"] = source_arr
+
+    if "mrl:statement" in obj:
+        lineage_obj["statement"] = character_string(obj["mrl:statement"])
+
+    if "mrl:scope" in obj:
+        lineage_obj["scope"] = md_scope(obj["mrl:scope"]["mcc:MD_Scope"])
+
+    if "mrl:additionalDocumentation" in obj:
+        lineage_obj["additionalDocumentation"] = [ci_citation(doc["cit:CI_Citation"]) for doc in dict_to_list(obj["mrl:additionalDocumentation"])]
+
+    return lineage_obj
+
+
+def resource_lineage(obj: dict | list | None) -> list | None:
+    if obj is None:
+        return None
+
+    return [li_lineage(lineage["mrl:LI_Lineage"]) for lineage in dict_to_list(obj)]
+
+
 iso3_to_iso4_mapping: MappingDict = {
     "source_model": ISO3,
     "target_model": ISO4,
@@ -653,6 +742,11 @@ iso3_to_iso4_mapping: MappingDict = {
             "key": "mdb:contact",
             "to": "properties.contact",
             "to_func": lambda value, source: contact(value)
+        },
+        {
+            "key": "mdb:resourceLineage",
+            "to": "properties.resourceLineage",
+            "to_func": lambda value, source: resource_lineage(value)
         },
     ],
 }
