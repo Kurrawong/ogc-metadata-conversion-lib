@@ -24,11 +24,11 @@ output = convert("data/test/test.json", "umm")
 The commands available to run via the CLI are:
 
 ```bash
-ocl validate [file] -f iso3|umm|trainingDML|iso4
+ocl validate <file> -f iso3|umm|trainingDML|iso4
 ```
 
 ```bash
-ocl convert [file] -f iso3|umm|trainingDML
+ocl convert <file> -f iso3|umm|trainingDML
 ```
 
 ## Mappings
