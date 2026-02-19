@@ -1,8 +1,6 @@
 import json
 from typing import Literal, Union
 
-import xmlschema
-
 type InputFormat = Literal["iso3", "umm", "trainingDML"]
 type OutputFormat = Literal["iso4"]
 type Format = Union[InputFormat, OutputFormat]
@@ -39,10 +37,3 @@ def guess_format(content: str) -> Format:
                 return "umm"
         except Exception as e:
             raise ValueError("Invalid content - not JSON format")
-
-
-def _export_xml_schemas(url: str):
-    # https://raw.githubusercontent.com/ISO-TC211/XML/refs/heads/master/schemas.isotc211.org/19157/-2/mdq/1.0/mdq.xsd
-    # http://standards.iso.org/iso/19115/-3/mdb/1.0
-    s = xmlschema.XMLSchema(url)
-    s.export(target='my_schemas', save_remote=True)

@@ -1,8 +1,8 @@
 from typing import Any
 
 from ocl.mapping import MappingDict
-from ocl.models.mapped.iso3 import ISO3
-from ocl.models.mapped.iso4 import ISO4
+from ocl.models.iso3 import ISO3
+from ocl.models.iso4 import ISO4
 
 
 def character_string(obj: dict | None) -> str | None:
@@ -431,7 +431,7 @@ def ex_extent(obj: dict | None) -> dict | None:
                     el[element_top_key]["gex:geographicIdentifier"]["mcc:MD_Identifier"])
 
             if "gex:extentTypeCode" in el[element_top_key]:
-                element_obj["extentTypeCode"] = boolean(el[element_top_key]["gex:extendTypeCode"])
+                element_obj["extentTypeCode"] = boolean(el[element_top_key]["gex:extentTypeCode"])
 
             extent_obj["geographicElement"].append(element_obj)
 

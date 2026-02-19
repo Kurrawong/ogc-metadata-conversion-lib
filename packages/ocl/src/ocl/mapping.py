@@ -9,7 +9,6 @@ class Mapping(TypedDict):
     key: str
     to: str
     to_func: NotRequired[MappingFuncType]
-    # from_func: NotRequired[MappingFuncType]
 
 
 class MappingDict(TypedDict):
@@ -25,7 +24,6 @@ def get_value_from_key_path(path: str, obj: dict) -> Any | None:
         if x is None:
             break
     return x
-    # return reduce(lambda value, key: value.get(key), path.split("."), obj)
 
 
 def set_value_from_key_path(path: str, value: Any, obj: dict):
@@ -38,11 +36,11 @@ def set_value_from_key_path(path: str, value: Any, obj: dict):
 
 
 def get_source_array_value(
-    from_chunks: list[str],
-    to_chunks: list[str],
-    source: dict,
-    target: dict,
-    chunk_index: int,
+        from_chunks: list[str],
+        to_chunks: list[str],
+        source: dict,
+        target: dict,
+        chunk_index: int,
 ):
     if chunk_index < len(from_chunks) - 1:
         source_array = get_value_from_key_path(from_chunks[chunk_index], source)
@@ -105,8 +103,6 @@ def convert_model(source, mapping_dict: MappingDict):
                 value = mapping["to_func"](value, source)
             if value is not None:
                 set_value_from_key_path(mapping["to"], value, obj)
-
-    # print(obj)
 
     return mapping_dict["target_model"].model_validate(obj)
 

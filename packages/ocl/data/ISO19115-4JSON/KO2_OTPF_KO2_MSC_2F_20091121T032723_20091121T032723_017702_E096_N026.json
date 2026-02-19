@@ -1,0 +1,217 @@
+{
+    "bbox": [
+        95.91153308,
+        25.92713265,
+        96.09259599,
+        26.08689352
+    ],
+    "geometry": {
+        "coordinates": [[
+            [
+                95.91153308,
+                26.08689352
+            ],
+            [
+                95.91153308,
+                25.92713265
+            ],
+            [
+                96.09259599,
+                25.92713265
+            ],
+            [
+                96.09259599,
+                26.08689352
+            ],
+            [
+                95.91153308,
+                26.08689352
+            ]
+        ]],
+        "type": "Polygon"
+    },
+    "conformsTo": [
+        "https://standards.iso.org/iso/19115/-4/0.1/core",
+        "https://standards.iso.org/iso/19115/-4/0.1/data-quality-core",
+        "https://standards.iso.org/iso/19115/-4/0.1/no-ref"
+    ],
+    "id": "KO2_OTPF_KO2_MSC_2F_20091121T032723_20091121T032723_017702_E096_N026",
+    "type": "Feature",
+    "properties": {
+        "defaultLocale": {
+            "language": "eng",
+            "characterEncoding": "utf8"
+        },
+        "identificationInfo": {
+            "defaultLocale": {
+                "language": "eng",
+                "characterEncoding": "utf8"
+            },
+            "extent": [{"geographicElement": [{
+                "northBoundLatitude": 26.08689352,
+                "southBoundLatitude": 25.92713265,
+                "type": "EX_GeographicBoundingBox",
+                "westBoundLongitude": 95.91153308,
+                "eastBoundLongitude": 96.09259599
+            }]}],
+            "parentMetadata": {
+                "identifier": [
+                    {"code": "TropForest"},
+                    {
+                        "code": "did:web:emc.spacebel.be:collections:TropForest",
+                        "codeSpace": "https://www.w3.org/ns/did/v1"
+                    }
+                ],
+                "title": "TropForest"
+            },
+            "citation": {
+                "identifier": [
+                    {"code": "KO2_OTPF_KO2_MSC_2F_20091121T032723_20091121T032723_017702_E096_N026"},
+                    {
+                        "code": "did:web:emc.spacebel.be:collections:TropForest:items:KO2_OTPF_KO2_MSC_2F_20091121T032723_20091121T032723_017702_E096_N026",
+                        "codeSpace": "https://www.w3.org/ns/did/v1"
+                    }
+                ],
+                "title": "KO2_OTPF_KO2_MSC_2F_20091121T032723_20091121T032723_017702_E096_N026"
+            },
+            "abstract": "KO2_OTPF_KO2_MSC_2F_20091121T032723_20091121T032723_017702_E096_N026"
+        },
+        "metadataStandard": [
+            {"title": "ISO 19115-1:2014"},
+            {"title": "ISO 19115-4"}
+        ],
+        "contact": [{
+            "role": "pointOfContact",
+            "party": [{
+                "contactInfo": [{
+                    "address": [{
+                        "deliveryPoint": ["Largo Galileo Galilei 1"],
+                        "country": "Italy",
+                        "city": "Frascati (Roma)",
+                        "postalCode": "00044",
+                        "electronicMailAddress": ["eohelp@esa.int"]
+                    }],
+                    "phone": {"voice": "tel:+3906941801"}
+                }],
+                "name": "ESA/ESRIN",
+                "type": "CI_Organisation"
+            }]
+        }],
+        "dataQualityInfo": [{
+            "scope": {"level": "dataset"},
+            "report": [
+                {
+                    "result": [{
+                        "type": "QuantitativeResult",
+                        "value": ["true"]
+                    }],
+                    "measure": {
+                        "measureIdentification": {
+                            "code": "101",
+                            "authority": {
+                                "alternateTitle": ["ISO"],
+                                "title": "International Organization for Standardization"
+                            },
+                            "codeSpace": "https://standards.isotc211.org/19157/-3/1/dqc/content/qualityMeasure/"
+                        },
+                        "measureDescription": "The measure will take the value true if all the requirements in the referred data product specification are fulfilled.",
+                        "nameOfMeasure": ["MD101"]
+                    },
+                    "type": "ConceptualConsistency"
+                },
+                {
+                    "result": [{
+                        "valueUnit": "%",
+                        "type": "QuantitativeResult",
+                        "value": [0]
+                    }],
+                    "measure": {
+                        "measureIdentification": {
+                            "code": "211",
+                            "authority": {
+                                "alternateTitle": ["ISO"],
+                                "title": "International Organization for Standardization"
+                            },
+                            "codeSpace": "https://standards.isotc211.org/19157/-3/1/dqc/content/qualityMeasure/"
+                        },
+                        "measureDescription": "Quality degradation - rate of imperfect coverage.",
+                        "nameOfMeasure": ["MD211"]
+                    },
+                    "evaluationMethod": [{
+                        "type": "FullInspection",
+                        "evaluationMethodDescription": "Automatic quality degradation check."
+                    }],
+                    "type": "Omission"
+                },
+                {
+                    "measure": {
+                        "measureIdentification": {
+                            "code": "7",
+                            "authority": {
+                                "alternateTitle": ["ISO"],
+                                "title": "International Organization for Standardization"
+                            },
+                            "codeSpace": "https://standards.isotc211.org/19157/-3/1/dqc/content/qualityMeasure/"
+                        },
+                        "measureDescription": "Cloud cover",
+                        "nameOfMeasure": ["Percentage of image obscured by cloud"]
+                    },
+                    "evaluationMethod": [{
+                        "evaluationMethodType": "directInternal",
+                        "type": "FullInspection",
+                        "evaluationMethodDescription": "N/A."
+                    }],
+                    "type": "Omission",
+                    "results": [{
+                        "valueUnit": "%",
+                        "type": "QuantitativeResult",
+                        "value": [4]
+                    }]
+                }
+            ]
+        }],
+        "resourceLineage": [{"processStep": [{
+            "output": [{"source": [{"sourceCitation": {
+                "code": "did:web:emc.spacebel.be:collections:TropForest:items:KO2_OTPF_KO2_MSC_2F_20091121T032723_20091121T032723_017702_E096_N026",
+                "title": "KO2_OTPF_KO2_MSC_2F_20091121T032723_20091121T032723_017702_E096_N026"
+            }}]}],
+            "stepDate": "2012-01-04T00:00:00Z",
+            "processingInformation": [{}],
+            "processor": [{
+                "role": "processor",
+                "party": [{
+                    "name": "Astrium Services",
+                    "type": "CI_Organisation"
+                }]
+            }]
+        }]}],
+        "dateInfo": {"revision": "2024-04-30T11:32:32Z"},
+        "distributionInfo": [{
+            "distributor": [],
+            "transferOptions": [{"onLine": [
+                {
+                    "function": "download",
+                    "name": "data",
+                    "description": "Download",
+                    "linkage": "https://tpm-ds.eo.esa.int/oads/data/Tropforest/KO2_OTPF_KO2_MSC_2F_20091121T032723_20091121T032723_017702_E096_N026.ZIP"
+                },
+                {
+                    "function": "browseGraphic",
+                    "name": "previews",
+                    "description": "QUICKLOOK",
+                    "linkage": "http://tpm-ds.eo.esa.int/oads/meta/Tropforest/browse/KO2_OTPF_KO2_MSC_2F_20091121T032723_20091121T032723_017702_E096_N026.ZIP_BID.JPG"
+                },
+                {
+                    "function": "browseGraphic",
+                    "name": "previews",
+                    "description": "THUMBNAIL",
+                    "linkage": "http://tpm-ds.eo.esa.int/oads/meta/Tropforest/thumbnail/KO2_OTPF_KO2_MSC_2F_20091121T032723_20091121T032723_017702_E096_N026.ZIP_TIMG.jpg"
+                }
+            ]}]
+        }],
+        "metadataScope": [{
+            "resourceScope": "dataset",
+            "name": "dataset"
+        }]
+    }
+}

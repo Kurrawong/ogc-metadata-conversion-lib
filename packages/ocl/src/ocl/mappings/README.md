@@ -2,8 +2,8 @@
 The mappings used between the converted formats will be documented here for transparency & review.
 
 The mappings are defined in the Python files in this directory:
-- ISO19115-3 XML - [`ISO3toISO4.py`](./ISO3toISO4.py)
-- UMM-G JSON - [`UMMtoISO4.py`](./UMMtoISO4.py)
+- ISO 19115-3 XML - [`ISO3toISO4.py`](./ISO3toISO4.py)
+- UMM JSON - [`UMMtoISO4.py`](./UMMtoISO4.py)
 - TrainingDML-AI JSON - [`TrainingDMLtoISO4.py`](./TrainingDMLtoISO4.py)
 
 > [!NOTE]  
@@ -27,15 +27,18 @@ The mappings are defined in the Python files in this directory:
 
 ## UMM-G JSON to ISO19115-4 JSON
 
-| Source Path          | Target Path                                 | Notes                    |
-|----------------------|---------------------------------------------|--------------------------|
-| `GranuleUR`          | `id` & `properties.metadataIdentifier.code` |                          |
-| `MeasuredParameters` | `properties.dataQualityInfo`                | Post-processing function |
-| `ProviderDates`      | `properties.identificationInfo.citation`    | Post-processing function |
+| Source Path                                                         | Target Path                                 | Notes                    |
+|---------------------------------------------------------------------|---------------------------------------------|--------------------------|
+| `GranuleUR`                                                         | `id` & `properties.metadataIdentifier.code` |                          |
+| `DataQuality`                                                       | `properties.dataQualityInfo`                |                          |
+| `ProviderDates`                                                     | `properties.identificationInfo.citation`    | Post-processing function |
+| `SpatialExtent`                                                     | `properties.identificationInfo.extent`      | Post-processing function |
+| `SpatialExtent.HorizontalSpatialDomain.Geometry.BoundingRectangles` | `geometry` & `bbox`                         | Post-processing function |
 
 ## TrainingDML-AI JSON to ISO19115-4 JSON
 
-| Source Path | Target Path                                 | Notes |
-|-------------|---------------------------------------------|-------|
-| `id`        | `id` & `properties.metadataIdentifier.code` |       |
-| `quality`   | `properties.dataQualityInfo`                |       |
+| Source Path | Target Path                                                   | Notes                    |
+|-------------|---------------------------------------------------------------|--------------------------|
+| `id`        | `id` & `properties.metadataIdentifier.code`                   |                          |
+| `quality`   | `properties.dataQualityInfo`                                  |                          |
+| `extent`    | `geometry` & `bbox` &  `properties.identificationInfo.extent` | Post-processing function |

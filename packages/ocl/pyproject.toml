@@ -7,7 +7,7 @@ Changelog = "https://github.com/Kurrawong/ogc-metadata-conversion-lib/releases"
 [project]
 name = "ocl"
 version = "0.1.0"
-description = "Add your description here"
+description = "A library for converting various EO metadata"
 readme = "README.md"
 authors = [
     { name = "jamiefeiss", email = "jamie.feiss@gmail.com" }
@@ -15,9 +15,7 @@ authors = [
 requires-python = ">=3.12"
 dependencies = [
     "jsonschema>=4.25.1",
-    "lxml>=6.0.2",
     "pydantic>=2.12.5",
-    "pydantic-xml>=2.18.0",
     "rich>=14.2.0",
     "typer>=0.20.0",
     "xmlschema>=4.2.0",

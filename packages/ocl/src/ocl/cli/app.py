@@ -3,12 +3,12 @@ from pathlib import Path
 from typing import Annotated, Literal
 
 import typer
-
 from ocl.cli.console import console
 from ocl.convert import convert as oclconvert
 from ocl.validate import validate as oclvalidate
 
 app = typer.Typer()
+
 
 @app.command()
 def validate(file: Path, format: Annotated[

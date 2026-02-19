@@ -1,7 +1,7 @@
 [project]
 name = "ocl-client"
 version = "0.1.0"
-description = "Add your description here"
+description = "An API & library for converting various EO metadata"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

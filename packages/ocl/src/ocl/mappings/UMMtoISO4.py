@@ -1,31 +1,9 @@
 from ocl.mapping import MappingDict
-from ocl.models.mapped.umm import UMM
-from ocl.models.mapped.iso4 import ISO4
+from ocl.models.umm import UMM
+from ocl.models.iso4 import ISO4
 
 
-def process_dq(data_quality: list | None, source: dict) -> list | None:
-    if data_quality is None:
-        return None
-    dq_value = []
-    for dq in data_quality:
-        obj = {
-            "scope": {
-                "level": "dataset"
-            }
-        }
-
-        if dq.get("ParameterName"):
-            obj["scope"]["levelDescription"] = [
-                {
-                    "attributes": [dq["ParameterName"]]
-                }
-            ]
-
-        dq_value.append(obj)
-    return dq_value
-
-
-def process_provider_dates(provider_dates: list, source: dict) -> dict | None:
+def process_provider_dates(provider_dates: list) -> dict | None:
     obj = {}
     for date in provider_dates:
         match (date["Type"]):
@@ -41,6 +19,62 @@ def process_provider_dates(provider_dates: list, source: dict) -> dict | None:
         return None
     return obj
 
+
+def bbox(obj: list | None) -> list[float] | None:
+    if obj is None or len(obj) == 0:
+        return None
+
+    return [
+        obj[0]["WestBoundingCoordinate"],
+        obj[0]["SouthBoundingCoordinate"],
+        obj[0]["EastBoundingCoordinate"],
+        obj[0]["NorthBoundingCoordinate"],
+    ]
+
+
+def geometry(obj: list | None) -> dict | None:
+    box = bbox(obj)
+    if box is None:
+        return None
+
+    coords = [[
+        [box[0], box[1]],
+        [box[2], box[1]],
+        [box[2], box[3]],
+        [box[0], box[3]],
+        [box[0], box[1]],
+    ]]
+
+    return {
+        "type": "Polygon",
+        "coordinates": coords,
+    }
+
+
+def extent(obj: dict | None) -> list | None:
+    if obj is None:
+        return None
+
+    extent_obj = {"geographicElement": []}
+
+    if "SpatialCoverageType" in obj:
+        extent_obj["description"] = "SpatialCoverageType=" + obj["SpatialCoverageType"]
+
+    if "HorizontalSpatialDomain" in obj:
+        if "Geometry" in obj["HorizontalSpatialDomain"]:
+            if "BoundingRectangles" in obj["HorizontalSpatialDomain"]["Geometry"]:
+                for rectangle in obj["HorizontalSpatialDomain"]["Geometry"]["BoundingRectangles"]:
+                    extent_obj["geographicElement"].append({
+                        "type": "EX_GeographicBoundingBox",
+                        "westBoundLongitude": rectangle["WestBoundingCoordinate"],
+                        "eastBoundLongitude": rectangle["EastBoundingCoordinate"],
+                        "southBoundLatitude": rectangle["SouthBoundingCoordinate"],
+                        "northBoundLatitude": rectangle["NorthBoundingCoordinate"],
+                    })
+
+    return [extent_obj]
+
+
 umm_to_iso4_mapping: MappingDict = {
     "source_model": UMM,
     "target_model": ISO4,
@@ -54,19 +88,28 @@ umm_to_iso4_mapping: MappingDict = {
             "to": "properties.metadataIdentifier.code",
         },
         {
-            "key": "MeasuredParameters",
+            "key": "DataQuality",
             "to": "properties.dataQualityInfo",
-            "to_func": lambda value, source: process_dq(value, source)
         },
-        # {
-        #     "key": "MeasuredParameters@.ParameterName",
-        #     "to": "properties.dataQualityInfo@.scope.levelDescription",
-        #     # "to_func": lambda value, source: [{"attributes": [value]}]
-        # },
         {
             "key": "ProviderDates",
             "to": "properties.identificationInfo.citation",
-            "to_func": lambda value, source: process_provider_dates(value, source)
+            "to_func": lambda value, source: process_provider_dates(value)
+        },
+        {
+            "key": "SpatialExtent.HorizontalSpatialDomain.Geometry.BoundingRectangles",
+            "to": "bbox",
+            "to_func": lambda value, source: bbox(value)
+        },
+        {
+            "key": "SpatialExtent.HorizontalSpatialDomain.Geometry.BoundingRectangles",
+            "to": "geometry",
+            "to_func": lambda value, source: geometry(value)
+        },
+        {
+            "key": "SpatialExtent",
+            "to": "properties.identificationInfo.extent",
+            "to_func": lambda value, source: extent(value)
         },
     ],
 }
