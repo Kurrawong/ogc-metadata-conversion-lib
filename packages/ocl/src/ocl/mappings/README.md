@@ -13,12 +13,12 @@ The mappings are defined in the Python files in this directory:
 
 | Source Path                                                             | Target Path                                 | Notes                    |
 |-------------------------------------------------------------------------|---------------------------------------------|--------------------------|
-| `mdb:metadataIdentifier.mcc:MD_Identifier.mcc:code.gco:CharacterString` | `id` & `properties.metadataIdentifier.code` |                          |
+| `mdb:metadataIdentifier.mcc:MD_Identifier.mcc:code.gco:CharacterString` | `id`<br/>`properties.metadataIdentifier.code` |                          |
 | `mdb:metadataIdentifier.mcc:MD_Identifier`                              | `properties.metadataIdentifier`             | Post-processing function |
 | `mdb:dataQualityInfo`                                                   | `properties.dataQualityInfo`                | Post-processing function |
 | `mdb:dateInfo`                                                          | `properties.dateInfo`                       | Post-processing function |
 | `mdb:identificationInfo.mri:MD_DataIdentification`                      | `properties.identificationInfo`             | Post-processing function |
-| `mdb:identificationInfo.mri:MD_DataIdentification.mri:extent`           | `geometry` & `bbox`                         | Post-processing function |
+| `mdb:identificationInfo.mri:MD_DataIdentification.mri:extent`           | `geometry`<br/>`bbox`                         | Post-processing function |
 | `mdb:defaultLocale.lan:PT_Locale`                                       | `properties.defaultLocale`                  | Post-processing function |
 | `mdb:otherLocale`                                                       | `properties.otherLocale`                    | Post-processing function |
 | `mdb:metadataScope`                                                     | `properties.metadataScope`                  | Post-processing function |
@@ -29,16 +29,16 @@ The mappings are defined in the Python files in this directory:
 
 | Source Path                                                         | Target Path                                 | Notes                    |
 |---------------------------------------------------------------------|---------------------------------------------|--------------------------|
-| `GranuleUR`                                                         | `id` & `properties.metadataIdentifier.code` |                          |
+| `GranuleUR`                                                         | `id`<br/>`properties.metadataIdentifier.code` |                          |
 | `DataQuality`                                                       | `properties.dataQualityInfo`                |                          |
 | `ProviderDates`                                                     | `properties.identificationInfo.citation`    | Post-processing function |
 | `SpatialExtent`                                                     | `properties.identificationInfo.extent`      | Post-processing function |
-| `SpatialExtent.HorizontalSpatialDomain.Geometry.BoundingRectangles` | `geometry` & `bbox`                         | Post-processing function |
+| `SpatialExtent.HorizontalSpatialDomain.Geometry.BoundingRectangles` | `geometry`<br/>`bbox`                         | Post-processing function |
 
 ## TrainingDML-AI JSON to ISO19115-4 JSON
 
 | Source Path | Target Path                                                   | Notes                    |
 |-------------|---------------------------------------------------------------|--------------------------|
-| `id`        | `id` & `properties.metadataIdentifier.code`                   |                          |
+| `id`        | `id`<br/>`properties.metadataIdentifier.code`                 |                          |
 | `quality`   | `properties.dataQualityInfo`                                  |                          |
-| `extent`    | `geometry` & `bbox` &  `properties.identificationInfo.extent` | Post-processing function |
+| `extent`    | `geometry`<br/>`bbox`<br/>`properties.identificationInfo.extent` | Post-processing function |

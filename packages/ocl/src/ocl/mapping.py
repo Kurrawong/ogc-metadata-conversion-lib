@@ -18,6 +18,7 @@ class MappingDict(TypedDict):
 
 
 def get_value_from_key_path(path: str, obj: dict) -> Any | None:
+    """Gets the value of a key from a deeply nested dict using dot notation"""
     x = obj
     for key in path.split("."):
         x = x.get(key)
@@ -27,6 +28,7 @@ def get_value_from_key_path(path: str, obj: dict) -> Any | None:
 
 
 def set_value_from_key_path(path: str, value: Any, obj: dict):
+    """Sets the value of a key from a deeply nested dict using dot notation, or creates a key if it doesn't exist"""
     x = obj
     for i, key in enumerate(path.split(".")):
         if i < len(path.split(".")) - 1:
@@ -42,6 +44,7 @@ def get_source_array_value(
         target: dict,
         chunk_index: int,
 ):
+    """Gets a value from nested arrays"""
     if chunk_index < len(from_chunks) - 1:
         source_array = get_value_from_key_path(from_chunks[chunk_index], source)
         target_array = get_value_from_key_path(to_chunks[chunk_index], target)
@@ -60,15 +63,14 @@ def get_source_array_value(
             return a
     else:
         v = get_value_from_key_path(from_chunks[chunk_index], source)
-        # might need to run function here instead
+
         if v is not None:
             set_value_from_key_path(to_chunks[chunk_index], v, target)
         return target
 
 
 def convert_model(source, mapping_dict: MappingDict):
-    # TODO: implement better typing with generics
-
+    """Converts to a Pydantic model from a source model using a mapping schema"""
     if not isinstance(source, mapping_dict["source_model"]):
         raise ValueError(f"Invalid input model - expecting instance of {str(mapping_dict["source_model"])}")
 
@@ -92,12 +94,11 @@ def convert_model(source, mapping_dict: MappingDict):
             value = get_source_array_value(from_chunks, to_chunks, source_dict, obj, 0)
             if mapping.get("to_func"):
                 value = mapping["to_func"](value, source)
-            # TODO: might need before & after hook
+
             if value is not None:
                 set_value_from_key_path(to_chunks[0], value, obj)
 
         else:
-            # TODO: handle root object
             value = get_value_from_key_path(mapping["key"], source_dict)
             if mapping.get("to_func"):
                 value = mapping["to_func"](value, source)

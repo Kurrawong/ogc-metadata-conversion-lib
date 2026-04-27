@@ -40,6 +40,8 @@ Nested arrays can also be targeted by using the `@` flag in the key path (the nu
 
 e.g. `array@.obj.nested@.key` -> `target.key.array@.a.b.nested@.c`
 
+Functions can optionally be passed to each mapping dict for more complex transformations.
+
 Take a snippet of the UMM to ISO 19115-4 mapping for example:
 
 ```python

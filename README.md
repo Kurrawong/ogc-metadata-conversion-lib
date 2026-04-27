@@ -1,6 +1,17 @@
 # OGC Metadata Converter
 A library that converts ISO 19115-3 XML, UMM JSON & TrainingDML-AI JSON metadata to ISO 19115-4 JSON, available as a FastAPI API, a Python module and a CLI.
 
+Developed for OGC Testbed 21 task DQ4IPT D103 - DQ4IPT Enabled Software Library.
+
+## Contents
+
+- [API](#api)
+- [Library & CLI](#library--cli)
+  - [Module](#module)
+  - [CLI](#cli)
+- [Developing](#developing)
+  - [Taskfile](#taskfile)
+
 ## API
 Available at - [ocl.dev.kurrawong.ai](https://ocl.dev.kurrawong.ai/)
 
@@ -12,6 +23,8 @@ There are two endpoints available (see the [OpenAPI docs](https://ocl.dev.kurraw
 - `/convert` - Converts a metadata file from a specified format (being one of `iso3`, `umm`, or `trainingDML`) at a URL to ISO 19115-4 JSON
   - GET - the `?file` URL must be URL-encoded
   - POST - `file` & `format` POSTed in a JSON body
+
+See the [API README](./app/README.md) for more details.
 
 
 ## Library & CLI

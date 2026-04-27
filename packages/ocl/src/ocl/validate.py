@@ -14,8 +14,6 @@ ROOT_DIR = Path(__file__).parent.parent
 
 def validate(content: str, format: Format | None = None):
     """Validates metadata of supported formats"""
-    # schema = ""
-
     if format:
         check_format(content, format)
     else:
